@@ -12,11 +12,16 @@
   },
   "dependencies": {
     "@nuxt/eslint": "^0.5.7",
+    "@unocss/reset": "^0.63.2",
     "nuxt": "^3.13.0",
     "vue": "latest",
     "vue-router": "latest"
   },
   "devDependencies": {
-    "typescript": "^5.6.2"
+    "@iconify-json/material-symbols": "^1.2.2",
+    "@unocss/eslint-config": "^0.63.2",
+    "@unocss/nuxt": "^0.63.2",
+    "typescript": "^5.6.2",
+    "unocss": "^0.63.2"
   }
 }
