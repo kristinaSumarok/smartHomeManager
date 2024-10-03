@@ -7,10 +7,23 @@ builder.Services
     .AddDatabase(builder.Configuration)
     .AddRepositories()
     .AddMappers()
-    .AddApplicationServices();
+    .AddApplicationServices()
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen()
+    .AddControllers();
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger().UseSwaggerUI(opts =>
+    {
+        opts.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        opts.RoutePrefix = string.Empty;
+    });
+}
+
+app.UseHttpsRedirection();
+app.MapControllers();
 
 app.Run();
