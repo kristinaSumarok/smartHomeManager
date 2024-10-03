@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ErrorOr;
+using Homemap.ApplicationCore.Errors;
 using Homemap.ApplicationCore.Interfaces.Repositories;
 using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.ApplicationCore.Models.Common;
@@ -20,13 +22,13 @@ namespace Homemap.ApplicationCore.Services
             _repository = repository;
         }
 
-        public async Task<TDto?> GetByIdAsync(int id)
+        public async Task<ErrorOr<TDto>> GetByIdAsync(int id)
         {
             TEntity? entity = await _repository.FindByIdAsync(id);
 
             if (entity == null)
             {
-                return null;
+                return UserErrors.EntityNotFound($"{typeof(TEntity).Name} was not found ('{id}')");
             }
 
             return _mapper.Map<TDto>(entity);
@@ -49,18 +51,18 @@ namespace Homemap.ApplicationCore.Services
             return _mapper.Map<TDto>(entity);
         }
 
-        public async Task<TDto> UpdateAsync(int id, TDto dto)
+        public async Task<ErrorOr<TDto>> UpdateAsync(int id, TDto dto)
         {
             TEntity? entity = await _repository.FindByIdAsync(id);
 
             if (entity == null)
             {
-                throw new ArgumentException("Entity not found", nameof(dto));
+                return UserErrors.EntityNotFound($"{typeof(TEntity).Name} was not found ('{id}')");
             }
 
             if (dto.Id != id)
             {
-                throw new ArgumentException("Invalid data", nameof(dto));
+                return UserErrors.IllegalOperation($"You are not allowed to modify {typeof(TEntity).Name} id");
             }
 
             entity = _mapper.Map(dto, entity);
@@ -71,17 +73,19 @@ namespace Homemap.ApplicationCore.Services
             return _mapper.Map<TDto>(entity);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<ErrorOr<Deleted>> DeleteAsync(int id)
         {
             TEntity? entity = await _repository.FindByIdAsync(id);
 
             if (entity == null)
             {
-                throw new ArgumentException("Entity not found", nameof(id));
+                return UserErrors.EntityNotFound($"{typeof(TEntity).Name} was not found ('{id}')");
             }
 
             _repository.Remove(entity);
             await _repository.SaveAsync();
+
+            return Result.Deleted;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Homemap.ApplicationCore.Interfaces.Services;
+﻿using ErrorOr;
+using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.ApplicationCore.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -16,6 +17,21 @@ namespace Homemap.WebAPI.Controllers
             _service = service;
         }
 
+        /// <returns>Erroneous ActionResult from supplied Error</returns>
+        protected ActionResult ErrorOf(Error error)
+        {
+            return error.Type switch
+            {
+                ErrorType.NotFound => NotFound(),
+                ErrorType.Unauthorized => Unauthorized(),
+                ErrorType.Validation => BadRequest(ModelState),
+                _ => Problem(
+                        type: error.Code,
+                        title: error.Description,
+                        detail: (error.Metadata?.TryGetValue("details", out object? details) ?? false) ? details.ToString() : null)
+            };
+        }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<T>>> GetAll()
@@ -28,12 +44,12 @@ namespace Homemap.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<T>> GetById(int id)
         {
-            T? dto = await _service.GetByIdAsync(id);
+            ErrorOr<T> dtoOrError = await _service.GetByIdAsync(id);
 
-            if (dto is null)
-                return NotFound();
+            if (dtoOrError.IsError)
+                return ErrorOf(dtoOrError.FirstError);
 
-            return dto;
+            return dtoOrError.Value;
         }
 
         [HttpPost]
@@ -62,12 +78,12 @@ namespace Homemap.WebAPI.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            T? updatedDto = await _service.UpdateAsync(id, dto);
+            ErrorOr<T> dtoOrError = await _service.UpdateAsync(id, dto);
 
-            if (updatedDto is null)
-                return NotFound();
+            if (dtoOrError.IsError)
+                return ErrorOf(dtoOrError.FirstError);
 
-            return updatedDto;
+            return dtoOrError.Value;
         }
 
         [HttpDelete("{id}")]
@@ -75,7 +91,10 @@ namespace Homemap.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(int id)
         {
-            await _service.DeleteAsync(id);
+            ErrorOr<Deleted> deletedOrError = await _service.DeleteAsync(id);
+
+            if (deletedOrError.IsError)
+                return ErrorOf(deletedOrError.FirstError);
 
             return NoContent();
         }
