@@ -1,6 +1,6 @@
-﻿namespace Domain.Common
+﻿namespace Homemap.Domain.Common
 {
-    public abstract class AuditableEntity
+    public abstract class AuditableEntity : Entity
     {
         public DateTime CreatedAt { get; set; }
 

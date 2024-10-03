@@ -1,7 +1,7 @@
-﻿using Domain.Common;
+﻿using Homemap.Domain.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Core
+namespace Homemap.Domain.Core
 {
     public class Receiver : AuditableEntity
     {

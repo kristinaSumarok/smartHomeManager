@@ -1,4 +1,4 @@
-﻿namespace Domain.Core
+﻿namespace Homemap.Domain.Core
 {
     public enum DeviceType
     {

@@ -1,4 +1,4 @@
-﻿namespace Domain.Common
+﻿namespace Homemap.Domain.Common
 {
     public abstract class Entity
     {
