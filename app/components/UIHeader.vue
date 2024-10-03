@@ -3,7 +3,7 @@
 
 <template>
   <header class="flex items-center justify-between gap-4 px-4 py-2 lg:hidden">
-    <UIIconButton
+    <IconButton
       as="button"
       icon="i-material-symbols-menu-rounded"
       label="Open navigation"

@@ -8,7 +8,21 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
 
-  modules: ['@nuxt/eslint', '@unocss/nuxt'],
+  modules: [
+    '@nuxt/eslint',
+    '@unocss/nuxt',
+    'radix-vue/nuxt',
+    '@pinia/nuxt',
+  ],
+
+  // https://nuxt.com/docs/guide/directory-structure/components#custom-directories
+  components: [
+    {
+      path: '~/components/common',
+      prefix: '',
+    },
+    '~/components',
+  ],
 
   // https://eslint.nuxt.com/
   eslint: {

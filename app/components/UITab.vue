@@ -25,7 +25,7 @@ const { href, label, icon, isActive = false } = defineProps<Props>()
       v-if="icon"
       class="text-base text-zinc-500 group-hover:text-zinc-900"
     >
-      <UIIcon :name="icon" />
+      <Icon :name="icon" />
     </span>
 
     <span class="truncate">{{ label }}</span>

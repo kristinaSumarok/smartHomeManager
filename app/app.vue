@@ -2,6 +2,7 @@
 </script>
 
 <template>
+  <NuxtRouteAnnouncer />
   <NuxtLayout name="app">
     <NuxtPage />
   </NuxtLayout>
