@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDatabase(builder.Configuration)
     .AddRepositories()
-    .AddMappers();
+    .AddMappers()
+    .AddApplicationServices();
 
 var app = builder.Build();
 
