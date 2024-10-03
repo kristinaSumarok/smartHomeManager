@@ -12,6 +12,7 @@ namespace Homemap.Infrastructure.Data
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options => options
+                .UseLazyLoadingProxies()
                 .UseSqlite(
                     configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)

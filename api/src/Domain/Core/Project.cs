@@ -8,6 +8,6 @@ namespace Homemap.Domain.Core
         [Required]
         public string Name { get; set; } = null!;
 
-        public ICollection<Receiver> Receivers { get; } = new List<Receiver>();
+        public virtual ICollection<Receiver> Receivers { get; } = new List<Receiver>();
     }
 }

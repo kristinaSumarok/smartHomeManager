@@ -10,8 +10,8 @@ namespace Homemap.Domain.Core
 
         public int ProjectId { get; set; }
 
-        public Project Project { get; set; } = null!;
+        public virtual Project Project { get; set; } = null!;
 
-        public ICollection<Device> Devices { get; } = new List<Device>();
+        public virtual ICollection<Device> Devices { get; } = new List<Device>();
     }
 }

@@ -15,6 +15,6 @@ namespace Homemap.Domain.Core
         public int ReceiverId { get; set; }
 
         [Required]
-        public Receiver Receiver { get; set; } = null!;
+        public virtual Receiver Receiver { get; set; } = null!;
     }
 }
