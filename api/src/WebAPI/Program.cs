@@ -1,10 +1,12 @@
+using Homemap.ApplicationCore;
 using Homemap.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddDatabase(builder.Configuration)
-    .AddRepositories();
+    .AddRepositories()
+    .AddMappers();
 
 var app = builder.Build();
 
