@@ -17,7 +17,8 @@
     "nuxt": "^3.13.0",
     "radix-vue": "^1.9.6",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@iconify-json/material-symbols": "^1.2.2",

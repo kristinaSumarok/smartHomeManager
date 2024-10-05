@@ -1,21 +1,40 @@
 // https://github.com/nuxt/nuxt/issues/28804
 import { useRoute } from 'vue-router'
+import type { Project } from '~/domain/project'
+import { useProjectService } from '~/services/project'
 
 export const useProjectsStore = defineStore('projects', () => {
   const route = useRoute()
+  const projectService = useProjectService()
 
-  const projects = ref([
-    { id: 1, name: 'Project one' },
-    { id: 2, name: 'Project two' },
-  ])
+  const projects = ref<Project[]>([])
 
-  const currentProject = computed(() => {
+  async function getProjects() {
+    projects.value = await projectService.getProjects()
+    return projects.value
+  }
+
+  const currentProjectId = computed(() => {
     const id = route.params.id
 
-    if (typeof id === 'string' && /^\d+$/.test(id)) {
-      return projects.value.find(project => project.id === +id)
-    }
+    if (typeof id === 'string' && /^\d+$/.test(id))
+      return id
   })
 
-  return { projects, currentProject }
+  const currentProject = ref<Project>()
+
+  async function getCurrentProject() {
+    if (!currentProjectId.value)
+      return
+
+    currentProject.value = await projectService.getProjectById(+currentProjectId.value)
+    return currentProject.value
+  }
+
+  return {
+    projects,
+    getProjects,
+    currentProject,
+    getCurrentProject,
+  }
 })

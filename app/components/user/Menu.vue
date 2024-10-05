@@ -32,12 +32,6 @@ import { NuxtLink } from '#components'
         label="My account"
         icon="i-material-symbols-account-circle"
       />
-      <DropdownItem
-        :as="NuxtLink"
-        to="/"
-        label="Change preferences"
-        icon="i-material-symbols-tune-rounded"
-      />
     </DropdownGroup>
     <DropdownSeparator />
     <DropdownGroup>

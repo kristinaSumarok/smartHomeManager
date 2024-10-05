@@ -15,6 +15,13 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
 
+  // https://nuxt.com/docs/guide/going-further/runtime-config
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: 'https://localhost:7185/api',
+    },
+  },
+
   // https://nuxt.com/docs/guide/directory-structure/components#custom-directories
   components: [
     {
