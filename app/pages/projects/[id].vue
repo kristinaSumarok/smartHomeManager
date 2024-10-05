@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'app',
+})
+
 const projectsStore = useProjectsStore()
 const { currentProject } = storeToRefs(projectsStore)
 
@@ -11,5 +15,8 @@ if (!currentProject.value) {
 </script>
 
 <template>
-  <p>hello {{ JSON.stringify(currentProject) }}</p>
+  <div class="mx-auto h-full max-w-screen-xl overflow-hidden p-6 lg:p-10">
+    <p>hello {{ JSON.stringify(currentProject) }}</p>
+    <NuxtPage />
+  </div>
 </template>

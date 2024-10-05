@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const projectsStore = useProjectsStore()
+const { currentProject } = storeToRefs(projectsStore)
 </script>
 
 <template>
@@ -15,17 +17,17 @@
           <UITab
             icon="i-material-symbols-grid-view-outline-rounded"
             label="Overview"
-            href="/"
+            :to="{ name: 'projects-id', params: { id: currentProject?.id } }"
           />
           <UITab
             icon="i-material-symbols-event-list-outline-rounded"
             label="Event logs"
-            href="/logs"
+            :to="{ name: 'projects-id-logs', params: { id: currentProject?.id } }"
           />
           <UITab
             icon="i-material-symbols-settings-outline-rounded"
             label="Settings"
-            href="/settings"
+            :to="{ name: 'projects-id-settings', params: { id: currentProject?.id } }"
           />
         </div>
       </div>
