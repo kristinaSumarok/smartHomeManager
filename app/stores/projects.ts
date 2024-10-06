@@ -18,16 +18,16 @@ export const useProjectsStore = defineStore('projects', () => {
     const id = route.params.id
 
     if (typeof id === 'string' && /^\d+$/.test(id))
-      return id
+      return +id
   })
 
   const currentProject = ref<Project>()
 
   async function getCurrentProject() {
     if (!currentProjectId.value)
-      return
+      return { success: false }
 
-    currentProject.value = await projectService.getProjectById(+currentProjectId.value)
+    currentProject.value = await projectService.getProjectById(currentProjectId.value)
     return currentProject.value
   }
 
