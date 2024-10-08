@@ -25,6 +25,43 @@ namespace Homemap.Infrastructure.Data.Seeds
                 {
                     Name = "Home - ground floor"
                 },
+
+                 new Project()
+                {
+                    Name = "Home - second floor"
+                },
+                 new Project()
+                {
+                    Name = "Cottage - sauna"
+                },
+                new Project()
+                {
+                    Name = "Cottage - main house"
+                },
+                 new Project()
+                {
+                    Name = "Cabin"
+                },
+                 new Project()
+                {
+                    Name = "Office"
+                },
+                new Project()
+                {
+                    Name = "Guest room"
+                },
+                new Project()
+                {
+                    Name = "Farmhouse - kitchen"
+                },
+                new Project()
+                {
+                    Name = "Father's room"
+                },
+                new Project()
+                {
+                    Name = "Mother's room"
+                },
             ];
 
             await _entities.AddRangeAsync(projects);
