@@ -25,3 +25,14 @@ dotnet run
 ```
 
 [comment]: <> (TODO: Add  instructions on how to build for production)
+
+## Visual Studio users
+Open solution `api.sln`
+
+Open Package Manager Console (PMC)
+
+Select `Infrastructure.Data` (not `WebAPI`) project for PMC
+
+Run `update-database` in PMC
+
+Launch the solution using `https`
