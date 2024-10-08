@@ -10,10 +10,6 @@ namespace Homemap.Infrastructure.Data.Seeds
         public ProjectSeeder(ApplicationDbContext context) : base(context)
         {
         }
-
-        private static string GenerateRandomName() {
-            return $"Receiver {Guid.NewGuid()}";
-        }
         public async Task SeedAsync()
         {
             if (await _entities.AnyAsync())

@@ -7,6 +7,7 @@ namespace Homemap.Infrastructure.Data.Seeds;
 
 public class DeviceSeeder : BaseSeeder<Device>, ISeeder {
     private static int idx_count = 0;
+
     public DeviceSeeder(ApplicationDbContext context) : base(context) {
     }
 
