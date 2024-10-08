@@ -18,5 +18,6 @@ FROM base AS dev
 CMD [ "pnpm", "run", "dev" ]
 
 EXPOSE 3000
+EXPOSE 24678
 
 # TODO: build and production stages

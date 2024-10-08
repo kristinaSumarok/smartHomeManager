@@ -60,4 +60,17 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  // enables HMR for windows users, but it comes with great power comes great responsibility
+  //  https://vite.dev/config/server-options.html#server-watch
+  //  https://github.com/paulmillr/chokidar#performance
+  // $development: {
+  //   vite: {
+  //     server: {
+  //       watch: {
+  //         usePolling: true,
+  //       },
+  //     },
+  //   },
+  // },
 })
