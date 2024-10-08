@@ -25,7 +25,7 @@ namespace Homemap.Infrastructure.Data.Seeds
                 new Receiver()
                 {
                     Name = GenerateRandomName(),
-                    ProjectId = 1,
+                    ProjectId = 11,
                 },
                 new Receiver()
                 {
@@ -36,6 +36,36 @@ namespace Homemap.Infrastructure.Data.Seeds
                 {
                     Name = GenerateRandomName(),
                     ProjectId = 2,
+                },
+                new Receiver()
+                {
+                    Name = GenerateRandomName(),
+                    ProjectId = 5,
+                },
+                new Receiver()
+                {
+                    Name = GenerateRandomName(),
+                    ProjectId = 5,
+                },
+                new Receiver()
+                {
+                    Name = GenerateRandomName(),
+                    ProjectId = 7,
+                },
+                 new Receiver()
+                {
+                    Name = GenerateRandomName(),
+                    ProjectId = 9,
+                },
+                 new Receiver()
+                {
+                    Name = GenerateRandomName(),
+                    ProjectId = 10,
+                },
+                 new Receiver()
+                {
+                    Name = GenerateRandomName(),
+                    ProjectId = 10,
                 },
             ];
 
