@@ -43,7 +43,8 @@ if (app.Environment.IsDevelopment())
     new List<ISeeder>
     {
         new ProjectSeeder(context),
-        new ReceiverSeeder(context)
+        new ReceiverSeeder(context),
+        new DeviceSeeder(context)
     }.ForEach(async seeder => await seeder.SeedAsync());
 
     // enable cors
