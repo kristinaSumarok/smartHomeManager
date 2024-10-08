@@ -11,6 +11,7 @@ namespace Homemap.ApplicationCore
         public static IServiceCollection AddMappers(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(ProjectProfile).Assembly);
+            services.AddAutoMapper(typeof(ReceiverProfile).Assembly);
 
             return services;
         }
@@ -18,6 +19,7 @@ namespace Homemap.ApplicationCore
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IService<ProjectDto>, ProjectService>();
+            services.AddScoped<IService<ReceiverDto>, ReceiverService>();
 
             return services;
         }
