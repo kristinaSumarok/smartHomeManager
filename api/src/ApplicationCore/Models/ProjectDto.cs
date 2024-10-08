@@ -2,6 +2,5 @@
 
 namespace Homemap.ApplicationCore.Models
 {
-    public record ProjectDto(
-        int Id, string Name, IReadOnlyCollection<ReceiverDto> Receivers) : EntityDto(Id);
+    public record ProjectDto(int Id, string Name) : EntityDto(Id);
 }
