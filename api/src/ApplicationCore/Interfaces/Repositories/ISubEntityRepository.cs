@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace Homemap.ApplicationCore.Interfaces.Repositories {
-    internal interface ISubEntityRepository {
-    }
+using Homemap.Domain.Common;
+
+namespace Homemap.ApplicationCore.Interfaces.Repositories;
+public interface ISubEntityRepository<TEntity> : ICrudRepository<TEntity>
+    where TEntity : Homemap.Domain.Common.Entity {
+    Task<IReadOnlyList<TEntity>> FindByParentAsync(int userId);
 }
