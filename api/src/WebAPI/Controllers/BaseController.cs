@@ -32,7 +32,7 @@ namespace Homemap.WebAPI.Controllers
             };
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<T>>> GetAll()
         {
