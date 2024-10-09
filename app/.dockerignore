@@ -1,8 +1,7 @@
-Dockerfile
 node_modules
 .output
 .nuxt
 .vscode
+
+Dockerfile*
 .env.example
-*.md
-.gitignore
