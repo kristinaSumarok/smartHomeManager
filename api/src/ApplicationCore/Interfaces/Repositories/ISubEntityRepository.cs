@@ -3,7 +3,6 @@
 using Homemap.Domain.Common;
 
 namespace Homemap.ApplicationCore.Interfaces.Repositories;
-public interface ISubEntityRepository<TEntity> : ICrudRepository<TEntity>
-    where TEntity : Homemap.Domain.Common.Entity {
-    Task<IReadOnlyList<TEntity>> FindByParentAsync(int userId);
+public interface ISubEntityRepository<T> : ICrudRepository<T> where T : class {
+    Task<IReadOnlyList<T>> FindByParentAsync(int parentId);
 }

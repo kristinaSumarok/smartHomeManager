@@ -25,7 +25,6 @@ namespace Homemap.Infrastructure.Data
         {
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
             services.AddScoped(typeof(ISubEntityRepository<>), typeof(SubEntityRepository<>));
-
             return services;
         }
     }
