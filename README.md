@@ -5,7 +5,7 @@ Software-as-a-Service that lets you manage your IoT devices with ease.
 If you are feeling adventurous, try using Docker.
 
 ### Local development
-Use instructions in readme in dedicated project directory.
+Use instructions in readme in dedicated project's directory.
 
 ### Using Docker
 To start all the services of the application use
@@ -59,9 +59,9 @@ This will create a new file
 %USERPROFILE%/.aspnet/https/aspnetapp.pfx
 ```
 
-Next you should set the environment variable `HTTPS_CERTS_PASSWORD` with your own password.
+Next you should set the environment variable `ASPNETCORE_Kestrel__Certificates__Default__Password` with your own password.
 
-Copy `.env.example` and rename it to `.env`. Set your own password.
+Copy `.env.example` (inside `./api` folder) and rename it to `.env`. Set your own password.
 
 Now you're good to go!
 
@@ -81,4 +81,4 @@ Right now the SQLite database is not saved across different runs.
 
 This means that if you stop the container and then run again the **data will not be persisted**.
 
-This will be fixed later by using volumes and mounting SQLite related data separately.
+This will be fixed later by using volumes and mounting SQLite related data separately ([Read more](https://forums.docker.com/t/accessing-a-db-inside-a-docker-container/116106/6)).
