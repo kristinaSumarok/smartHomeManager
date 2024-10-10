@@ -1,8 +1,10 @@
 using Homemap.ApplicationCore;
 using Homemap.ApplicationCore.Interfaces.Seeders;
+using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.Infrastructure.Data;
 using Homemap.Infrastructure.Data.Contexts;
 using Homemap.Infrastructure.Data.Seeds;
+using Infrastructure.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,7 @@ const string devCorsPolicy = "devNuxtCorsPolicy";
 builder.Services
     .AddDatabase(builder.Configuration)
     .AddRepositories()
+    .AddMessagingService(builder.Configuration)
     .AddMappers()
     .AddApplicationServices()
     .AddEndpointsApiExplorer()
@@ -51,5 +54,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+
+// connect and disconnect from broker
+var messagingService = app.Services.GetRequiredService<IMessagingClientService>();
+
+app.Lifetime.ApplicationStarted.Register(async () =>
+    await messagingService.ConnectAsync());
+
+app.Lifetime.ApplicationStopping.Register(async () =>
+    await messagingService.DisconnectAsync());
 
 app.Run();
