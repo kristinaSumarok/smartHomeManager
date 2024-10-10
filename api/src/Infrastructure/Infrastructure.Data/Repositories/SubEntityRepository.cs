@@ -14,5 +14,6 @@ namespace Homemap.Infrastructure.Data.Repositories {
         public async Task<IReadOnlyList<T>> FindByParentAsync(int parentId) {
             return await _entities.Where(e => EF.Property<int>(e, "ProjectId") == parentId).ToListAsync();
         }
+
     }
 }

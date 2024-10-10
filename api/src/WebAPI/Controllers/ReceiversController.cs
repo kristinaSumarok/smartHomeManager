@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Homemap.WebAPI.Controllers;
 
-
+[Route("api/Projects/{projectId}/[controller]")]
+[ApiController]
 public class ReceiversController : BaseController<ReceiverDto> {
     private readonly ReceiverService _receiverService;
 
     public ReceiversController(ReceiverService receiverService) : base(receiverService) {
         _receiverService = receiverService;
     }
-
-    [Route("/{projectId}/receivers")]
-    [HttpGet]
+   
+    [HttpGet("all")]
     public async Task<IActionResult> GetReceiversByProject(int projectId) {
         var receivers = await _receiverService.GetReceiversByProjectAsync(projectId);
 
