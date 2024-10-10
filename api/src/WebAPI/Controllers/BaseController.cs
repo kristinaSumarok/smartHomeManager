@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using FluentValidation;
 using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.ApplicationCore.Models.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,12 @@ namespace Homemap.WebAPI.Controllers
     {
         private readonly IService<T> _service;
 
-        public BaseController(IService<T> service)
+        private readonly IValidator<T> _validator;
+
+        public BaseController(IService<T> service, IValidator<T> validator)
         {
             _service = service;
+            _validator = validator;
         }
 
         /// <returns>Erroneous ActionResult from supplied Error</returns>
@@ -58,9 +62,17 @@ namespace Homemap.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<T>> Create([FromBody] T dto)
         {
-            // TODO: validation, fluent validation
-            if (!ModelState.IsValid)
+            var validationResult = await _validator.ValidateAsync(dto);
+            
+            if (!validationResult.IsValid)
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+
                 return BadRequest(ModelState);
+            }
 
             dto = await _service.CreateAsync(dto);
 
@@ -74,9 +86,17 @@ namespace Homemap.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<T>> Update(int id, [FromBody] T dto)
         {
-            // TODO: validation, fluent validation
-            if (!ModelState.IsValid)
+            var validationResult = await _validator.ValidateAsync(dto);
+            
+            if (!validationResult.IsValid)
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+
                 return BadRequest(ModelState);
+            }
 
             ErrorOr<T> dtoOrError = await _service.UpdateAsync(id, dto);
 

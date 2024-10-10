@@ -12,6 +12,7 @@ builder.Services
     .AddDatabase(builder.Configuration)
     .AddRepositories()
     .AddMappers()
+    .AddValidators()
     .AddApplicationServices()
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
