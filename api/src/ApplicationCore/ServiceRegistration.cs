@@ -2,6 +2,7 @@
 using Homemap.ApplicationCore.Mappings;
 using Homemap.ApplicationCore.Models;
 using Homemap.ApplicationCore.Services;
+using Homemap.Domain.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Homemap.ApplicationCore
@@ -18,8 +19,7 @@ namespace Homemap.ApplicationCore
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IService<ProjectDto>, ProjectService>();
-            services.AddScoped<IService<ReceiverDto>, ReceiverService>();
-            services.AddScoped<ReceiverService>();
+            services.AddScoped<IReceiverService, ReceiverService>();
 
             return services;
         }
