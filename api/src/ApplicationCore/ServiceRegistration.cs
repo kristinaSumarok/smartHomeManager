@@ -1,8 +1,10 @@
-﻿using Homemap.ApplicationCore.Interfaces.Services;
+using FluentValidation;
+using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.ApplicationCore.Mappings;
 using Homemap.ApplicationCore.Models;
 using Homemap.ApplicationCore.Services;
 using Homemap.Domain.Core;
+using Homemap.ApplicationCore.Validators;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Homemap.ApplicationCore
@@ -12,6 +14,13 @@ namespace Homemap.ApplicationCore
         public static IServiceCollection AddMappers(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(ProjectProfile).Assembly);
+
+            return services;
+        }
+
+        public static IServiceCollection AddValidators(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssemblyContaining<ProjectDtoValidator>();
 
             return services;
         }
