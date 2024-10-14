@@ -13,10 +13,10 @@ namespace Homemap.ApplicationCore.Interfaces.Services {
 
         Task<IReadOnlyList<ReceiverDto>> GetAllAsync(int projectId);
 
-        Task<ReceiverDto> CreateAsync(ReceiverDto dto);
+        Task<ErrorOr<ReceiverDto>> CreateAsync(int projectId, ReceiverDto dto);
 
-        Task<ErrorOr<ReceiverDto>> UpdateAsync(int id, ReceiverDto dto);
+        Task<ErrorOr<ReceiverDto>> UpdateAsync(int projectId, int id, ReceiverDto dto);
 
-        Task<ErrorOr<Deleted>> DeleteAsync(int id);
+        Task<ErrorOr<Deleted>> DeleteAsync(int projectId, int id);
     }
 }

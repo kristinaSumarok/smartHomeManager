@@ -9,9 +9,11 @@ using System.Linq.Expressions;
 namespace Homemap.Infrastructure.Data.Repositories {
     internal class ReceiverRepository : Repository, IReceiverRepository {
         private readonly DbSet<Receiver> _receivers;
+        private readonly ApplicationDbContext _context;
 
         public ReceiverRepository(ApplicationDbContext context) : base(context) {
             _receivers = context.Set<Receiver>();
+            _context = context;
         }
 
         public async Task<Receiver> AddAsync(Receiver entity) {
@@ -42,5 +44,10 @@ namespace Homemap.Infrastructure.Data.Repositories {
         public async Task<IReadOnlyList<Receiver>> FindByParentAsync(int parentId) {
             return await _receivers.Where(e => EF.Property<int>(e, "ProjectId") == parentId).ToListAsync();
         }
+
+        public async Task<bool> ProjectExistsAsync(int projectId) {
+
+            return await _context.Projects.AnyAsync(p => p.Id == projectId);
         }
     }
+  }
