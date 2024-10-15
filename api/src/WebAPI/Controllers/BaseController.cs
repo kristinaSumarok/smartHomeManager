@@ -22,7 +22,7 @@ namespace Homemap.WebAPI.Controllers
         }
 
         /// <returns>Erroneous ActionResult from supplied Error</returns>
-        protected ActionResult ErrorOf(Error error)
+        private ActionResult ErrorOf(Error error)
         {
             return error.Type switch
             {

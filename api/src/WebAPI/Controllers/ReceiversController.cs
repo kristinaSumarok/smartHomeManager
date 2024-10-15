@@ -1,7 +1,9 @@
-﻿using Homemap.ApplicationCore.Interfaces.Repositories;
+﻿using ErrorOr;
+using Homemap.ApplicationCore.Interfaces.Repositories;
 using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.ApplicationCore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace Homemap.WebAPI.Controllers;
 
@@ -17,19 +19,24 @@ public class ReceiversController: ControllerBase {
    
     [HttpGet]
     public async Task<IActionResult> GetReceiversByProject(int projectId) {
-        var receivers = await _service.GetAllAsync(projectId);
 
-        if (receivers == null || receivers.Count == 0) {
-            return NotFound($"No receivers found for project with ID {projectId}");
+        var result = await _service.GetAllAsync(projectId);
+
+        if (result.IsError) {
+
+            if (result.FirstError == Error.NotFound()) {
+                return NotFound($"project with ID {projectId} doesn't exists");
+            }
+
+            return  NoContent();
         }
-
-        return Ok(receivers);
+        return Ok(result.Value);
     }
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetReceiverById(int projectId, int id) {
-        var result = await _service.GetByIdAsync(projectId, id);
+    public async Task<IActionResult> GetReceiverById(int id) {
+        var result = await _service.GetByIdAsync(id);
 
         return result.Match<IActionResult>(
             receiver => Ok(receiver),
@@ -38,8 +45,8 @@ public class ReceiversController: ControllerBase {
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteReceiver(int projectId, int id) {
-        var result = await _service.DeleteAsync(projectId, id);
+    public async Task<IActionResult> DeleteReceiver(int id) {
+        var result = await _service.DeleteAsync(id);
 
         return result.Match<IActionResult>(
             success => NoContent(),
@@ -48,8 +55,8 @@ public class ReceiversController: ControllerBase {
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateReceiver(int projectId, int id, [FromBody] ReceiverDto dto) {
-        var result = await _service.UpdateAsync(projectId, id, dto);
+    public async Task<IActionResult> UpdateReceiver(int id, [FromBody] ReceiverDto dto) {
+        var result = await _service.UpdateAsync(id, dto);
 
         return result.Match<IActionResult>(
             updatedReceiver => Ok(updatedReceiver),
@@ -65,6 +72,7 @@ public class ReceiversController: ControllerBase {
             errors => NotFound(string.Join(", ", errors.Select(e => e.Description)))
         );
     }
+
 
 
 

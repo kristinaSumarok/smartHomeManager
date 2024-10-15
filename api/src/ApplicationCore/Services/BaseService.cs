@@ -12,7 +12,7 @@ namespace Homemap.ApplicationCore.Services
         where TEntity : Entity
         where TDto : EntityDto
     {
-        protected readonly IMapper _mapper;
+        private readonly IMapper _mapper;
 
         private readonly ICrudRepository<TEntity> _repository;
 
