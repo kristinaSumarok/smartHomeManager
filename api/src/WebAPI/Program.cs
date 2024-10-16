@@ -15,7 +15,9 @@ builder.Services
     .AddValidators()
     .AddApplicationServices()
     .AddEndpointsApiExplorer()
-    .AddSwaggerGen()
+    .AddSwaggerGen(opts => opts.ResolveConflictingActions(
+        descriptions => descriptions.First())
+    )
     .AddCors(opts => opts.AddPolicy(devCorsPolicy, policy =>
     {
         policy

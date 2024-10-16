@@ -1,83 +1,60 @@
-﻿using ErrorOr;
-using Homemap.ApplicationCore.Interfaces.Repositories;
+﻿using FluentValidation;
 using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.ApplicationCore.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using System.Net.Mime;
 
 namespace Homemap.WebAPI.Controllers;
 
-[Route("api/Projects/{projectId}/[controller]")]
-[ApiController]
-public class ReceiversController: ControllerBase {
-
+[Route("api/projects/{projectId}/[controller]")]
+public class ReceiversController : BaseController<ReceiverDto>
+{
     private readonly IReceiverService _service;
 
-    public ReceiversController(IReceiverService receiverService) {
+    private readonly IValidator<ReceiverDto> _validator;
+
+    public ReceiversController(IReceiverService receiverService, IValidator<ReceiverDto> validator) : base(receiverService, validator)
+    {
         _service = receiverService;
+        _validator = validator;
     }
-   
+
     [HttpGet]
-    public async Task<IActionResult> GetReceiversByProject(int projectId) {
-
-        var result = await _service.GetAllAsync(projectId);
-
-        if (result.IsError) {
-
-            if (result.FirstError == Error.NotFound()) {
-                return NotFound($"project with ID {projectId} doesn't exists");
-            }
-
-            return  NoContent();
-        }
-        return Ok(result.Value);
-    }
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetReceiverById(int id) {
-        var result = await _service.GetByIdAsync(id);
+    public async Task<IActionResult> GetReceiversByProject(int projectId)
+    {
+        var dtoOrError = await _service.GetAllAsync(projectId);
 
-        return result.Match<IActionResult>(
-            receiver => Ok(receiver),
-            errors => NotFound(string.Join(", ", errors.Select(e => e.Description)))
-        );
+        if (dtoOrError.IsError)
+            return ErrorOf(dtoOrError.FirstError);
+
+        return Ok(dtoOrError.Value);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteReceiver(int id) {
-        var result = await _service.DeleteAsync(id);
-
-        return result.Match<IActionResult>(
-            success => NoContent(),
-            errors => NotFound(string.Join(", ", errors.Select(e => e.Description)))
-        );
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateReceiver(int id, [FromBody] ReceiverDto dto) {
-        var result = await _service.UpdateAsync(id, dto);
-
-        return result.Match<IActionResult>(
-            updatedReceiver => Ok(updatedReceiver),
-            errors => NotFound(string.Join(", ", errors.Select(e => e.Description)))
-        );
-    }
     [HttpPost]
-    public async Task<IActionResult> CreateReceiver(int projectId, [FromBody] ReceiverDto dto) {
-        var result = await _service.CreateAsync(projectId, dto);
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateReceiver(int projectId, [FromBody] ReceiverDto dto)
+    {
+        var validationResult = await _validator.ValidateAsync(dto);
 
-        return result.Match<IActionResult>(
-            createdReceiver => CreatedAtAction(nameof(GetReceiverById), new { projectId = projectId, id = createdReceiver.Id }, createdReceiver),
-            errors => NotFound(string.Join(", ", errors.Select(e => e.Description)))
+        if (!validationResult.IsValid)
+        {
+            foreach (var error in validationResult.Errors)
+            {
+                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        var dtoOrError = await _service.CreateAsync(projectId, dto);
+
+        return dtoOrError.MatchFirst(
+            createdReceiver => CreatedAtAction(nameof(CreateReceiver), new { createdReceiver.Id }, createdReceiver),
+            firstError => ErrorOf(firstError)
         );
     }
-
-
-
-
-
-
-
 }
-
