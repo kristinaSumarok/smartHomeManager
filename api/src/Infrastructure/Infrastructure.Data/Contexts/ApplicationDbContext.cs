@@ -8,6 +8,7 @@ namespace Homemap.Infrastructure.Data.Contexts
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Project> Projects { get; set; }
+
         public DbSet<Receiver> Receivers { get; set; }
     }
 }

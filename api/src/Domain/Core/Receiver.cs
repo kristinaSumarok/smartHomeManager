@@ -1,6 +1,5 @@
 ﻿using Homemap.Domain.Common;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Homemap.Domain.Core
 {
