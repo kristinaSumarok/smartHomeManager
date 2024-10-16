@@ -11,6 +11,8 @@ namespace Homemap.WebAPI.Controllers
     [ApiController]
     public class BaseController<T> : ControllerBase where T : EntityDto
     {
+        private const int HTTP_ORDER = 100;
+
         private readonly IService<T> _service;
 
         private readonly IValidator<T> _validator;
@@ -36,14 +38,14 @@ namespace Homemap.WebAPI.Controllers
             };
         }
 
-        [HttpGet]
+        [HttpGet(Order = HTTP_ORDER)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<T>>> GetAll()
         {
             return Ok(await _service.GetAllAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Order = HTTP_ORDER)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<T>> GetById(int id)
@@ -56,14 +58,14 @@ namespace Homemap.WebAPI.Controllers
             return dtoOrError.Value;
         }
 
-        [HttpPost]
+        [HttpPost(Order = HTTP_ORDER)]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<T>> Create([FromBody] T dto)
         {
             var validationResult = await _validator.ValidateAsync(dto);
-            
+
             if (!validationResult.IsValid)
             {
                 foreach (var error in validationResult.Errors)
@@ -79,7 +81,7 @@ namespace Homemap.WebAPI.Controllers
             return CreatedAtAction(nameof(Create), new { dto.Id }, dto);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Order = HTTP_ORDER)]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -87,7 +89,7 @@ namespace Homemap.WebAPI.Controllers
         public async Task<ActionResult<T>> Update(int id, [FromBody] T dto)
         {
             var validationResult = await _validator.ValidateAsync(dto);
-            
+
             if (!validationResult.IsValid)
             {
                 foreach (var error in validationResult.Errors)
@@ -106,7 +108,7 @@ namespace Homemap.WebAPI.Controllers
             return dtoOrError.Value;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Order = HTTP_ORDER)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(int id)

@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.ApplicationCore.Mappings;
 using Homemap.ApplicationCore.Models;
@@ -27,6 +27,7 @@ namespace Homemap.ApplicationCore
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IService<ProjectDto>, ProjectService>();
+            services.AddScoped<IReceiverService, ReceiverService>();
 
             return services;
         }
