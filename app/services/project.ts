@@ -19,5 +19,8 @@ export const useProjectService = () => {
       const response = await repository.findOne(id)
       return projectSchema.parse(response)
     },
+    async removeProjectById(id: Project['id']) {
+      await repository.remove(id)
+    },
   }
 }
