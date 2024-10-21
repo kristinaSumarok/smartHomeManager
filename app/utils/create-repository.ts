@@ -8,8 +8,8 @@ const sleep = () => new Promise((resolve) => {
 type Id = string | number
 
 export const createRepository = (fetch: $Fetch) => ({
-  async findAll() {
-    return await fetch<unknown[]>('/')
+  async findAll(url?: string) {
+    return await fetch<unknown[]>(url ?? '/')
   },
 
   async findOne(id: Id) {
