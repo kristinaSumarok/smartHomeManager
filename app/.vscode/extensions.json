@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "antfu.iconify",
+    "nuxtr.nuxt-vscode-extentions",
+    "wayou.vscode-todo-highlight",
+    "antfu.unocss"
+  ],
+}
