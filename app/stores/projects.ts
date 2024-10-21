@@ -32,11 +32,7 @@ export const useProjectsStore = defineStore('projects', () => {
   }
 
   async function removeProject() {
-    if (!currentProjectId.value)
-      return { success: false }
-
-    await projectService.removeProjectById(currentProjectId.value)
-    return { success: true }
+    await projectService.removeProjectById(Number(currentProjectId.value))
   }
 
   return {
