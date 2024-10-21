@@ -3,6 +3,7 @@
 
 <template>
   <div>
-    overview
+    <h2>Overview</h2>
+    <ReceiverList />
   </div>
 </template>
