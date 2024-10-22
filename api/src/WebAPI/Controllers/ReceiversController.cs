@@ -6,7 +6,6 @@ using System.Net.Mime;
 
 namespace Homemap.WebAPI.Controllers;
 
-[Route("api/projects/{projectId}/[controller]")]
 public class ReceiversController : BaseController<ReceiverDto>
 {
     private readonly IReceiverService _service;
@@ -19,7 +18,16 @@ public class ReceiversController : BaseController<ReceiverDto>
         _validator = validator;
     }
 
-    [HttpGet]
+    [NonAction]
+    public override Task<ActionResult<IReadOnlyList<ReceiverDto>>> GetAll() => null!;
+
+    [NonAction]
+    public override Task<ActionResult<ReceiverDto>> Create([FromBody] ReceiverDto dto) => null!;
+
+    [NonAction]
+    public override Task<ActionResult<ReceiverDto>> Update(int id, [FromBody] ReceiverDto dto) => null!;
+
+    [HttpGet("/api/projects/{projectId}/[controller]")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetReceiversByProject(int projectId)
@@ -32,7 +40,7 @@ public class ReceiversController : BaseController<ReceiverDto>
         return Ok(dtoOrError.Value);
     }
 
-    [HttpPost]
+    [HttpPost("/api/projects/{projectId}/[controller]")]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
