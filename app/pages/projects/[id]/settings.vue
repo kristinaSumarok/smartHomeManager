@@ -4,19 +4,25 @@ const { currentProject } = storeToRefs(projectsStore)
 const errorMessage = ref<string | null>(null)
 
 async function handleRemove() {
+  let isSuccess = false
+  errorMessage.value = null
+
   try {
-    errorMessage.value = null
-    await projectsStore.removeProject()
-    await navigateTo('/')
+    const result = await projectsStore.removeProject()
+    isSuccess = result.success
   }
   catch (error) {
     if (error instanceof Error) {
-      errorMessage.value = error.message
-    }
-    else {
-      errorMessage.value = 'An unknown error occurred'
+      console.error(error.message)
     }
   }
+
+  if (!isSuccess) {
+    errorMessage.value = 'An error occurred while deleting project! Try again later.'
+    return
+  }
+
+  await navigateTo('/')
 }
 </script>
 
