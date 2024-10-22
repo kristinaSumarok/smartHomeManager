@@ -11,8 +11,6 @@ namespace Homemap.WebAPI.Controllers
     [ApiController]
     public class BaseController<T> : ControllerBase where T : EntityDto
     {
-        private const int HTTP_ORDER = 100;
-
         private readonly IService<T> _service;
 
         private readonly IValidator<T> _validator;
@@ -38,17 +36,17 @@ namespace Homemap.WebAPI.Controllers
             };
         }
 
-        [HttpGet(Order = HTTP_ORDER)]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IReadOnlyList<T>>> GetAll()
+        public virtual async Task<ActionResult<IReadOnlyList<T>>> GetAll()
         {
             return Ok(await _service.GetAllAsync());
         }
 
-        [HttpGet("{id}", Order = HTTP_ORDER)]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<T>> GetById(int id)
+        public virtual async Task<ActionResult<T>> GetById(int id)
         {
             ErrorOr<T> dtoOrError = await _service.GetByIdAsync(id);
 
@@ -58,11 +56,11 @@ namespace Homemap.WebAPI.Controllers
             return dtoOrError.Value;
         }
 
-        [HttpPost(Order = HTTP_ORDER)]
+        [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<T>> Create([FromBody] T dto)
+        public virtual async Task<ActionResult<T>> Create([FromBody] T dto)
         {
             var validationResult = await _validator.ValidateAsync(dto);
 
@@ -81,12 +79,12 @@ namespace Homemap.WebAPI.Controllers
             return CreatedAtAction(nameof(Create), new { dto.Id }, dto);
         }
 
-        [HttpPut("{id}", Order = HTTP_ORDER)]
+        [HttpPut("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<T>> Update(int id, [FromBody] T dto)
+        public virtual async Task<ActionResult<T>> Update(int id, [FromBody] T dto)
         {
             var validationResult = await _validator.ValidateAsync(dto);
 
@@ -108,10 +106,10 @@ namespace Homemap.WebAPI.Controllers
             return dtoOrError.Value;
         }
 
-        [HttpDelete("{id}", Order = HTTP_ORDER)]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Delete(int id)
+        public virtual async Task<ActionResult> Delete(int id)
         {
             ErrorOr<Deleted> deletedOrError = await _service.DeleteAsync(id);
 
@@ -119,6 +117,6 @@ namespace Homemap.WebAPI.Controllers
                 return ErrorOf(deletedOrError.FirstError);
 
             return NoContent();
-        }
+        }   
     }
 }
