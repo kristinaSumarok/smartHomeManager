@@ -23,5 +23,9 @@ export const useProjectService = () => {
     async removeProjectById(id: Project['id']) {
       await repository.remove(id)
     },
+
+    async updateProject(project: Project, id: Project['id']) {
+      await repository.update(id, project)
+    },
   }
 }

@@ -38,11 +38,20 @@ export const useProjectsStore = defineStore('projects', () => {
     await projectService.removeProjectById(currentProjectId.value)
     return { success: true }
   }
+  async function updateCurrentProject(project: Project) {
+    if (!currentProjectId.value)
+      return { success: false }
+
+    await projectService.updateProject(project, currentProjectId.value)
+    return { success: true }
+  }
 
   return {
     projects,
     getProjects,
+    updateCurrentProject,
     currentProject,
+    currentProjectId,
     getCurrentProject,
     removeProject,
   }

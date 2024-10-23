@@ -27,7 +27,7 @@ export const createRepository = (fetch: $Fetch) => ({
   async update<T>(id: Id, entity: T) {
     return await fetch<unknown>(`/${id}`, {
       method: 'PUT',
-      body: { entity },
+      body: JSON.stringify(entity),
     })
   },
 
