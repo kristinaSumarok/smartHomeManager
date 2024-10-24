@@ -27,8 +27,9 @@ import { NuxtLink } from '#components'
     <main class="w-full max-w-screen-xl flex flex-1 p-6 lg:p-10">
       <slot />
     </main>
-    <footer>
-      <slot name="footer" />
+
+    <footer class="w-full">
+      <Footer />
     </footer>
   </div>
 </template>
