@@ -1,6 +1,8 @@
 <template>
   <div class="min-h-full flex flex-col bg-white lg:(flex-row bg-zinc-100)">
-    <UIHeader />
+    <header class="lg:hidden">
+      <Header />
+    </header>
 
     <aside class="hidden lg:block">
       <slot name="sidebar" />

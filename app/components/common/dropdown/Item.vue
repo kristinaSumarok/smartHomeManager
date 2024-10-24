@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 interface Props {
   as?: unknown
   label: string
@@ -15,7 +19,7 @@ defineProps<Props>()
     <component
       :is="as"
       v-bind="$attrs"
-      class="group grid col-span-full grid-cols-subgrid h-9 items-center gap-2 rounded-md px-3 text-sm data-[highlighted]:bg-zinc-950/5"
+      class="group grid col-span-full grid-cols-subgrid h-10 items-center gap-2 rounded-md px-3 text-sm sm:h-9 data-[highlighted]:bg-zinc-950/5"
     >
       <slot name="icon">
         <span

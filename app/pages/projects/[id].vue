@@ -46,9 +46,6 @@ if (!currentProject.value) {
             :as="NuxtLink"
             :to="{ name: 'projects-id-settings', params: { id: currentProject!.id } }"
           />
-          <template #footer>
-            <UserMenu />
-          </template>
         </Sidebar>
       </template>
 
