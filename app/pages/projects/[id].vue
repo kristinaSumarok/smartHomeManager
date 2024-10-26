@@ -28,19 +28,19 @@ if (!currentProject.value) {
           <template #header>
             <ProjectMenu />
           </template>
-          <Tab
+          <SidebarTab
             icon="i-material-symbols-grid-view-outline-rounded"
             label="Overview"
             :as="NuxtLink"
             :to="{ name: 'projects-id', params: { id: currentProject!.id } }"
           />
-          <Tab
+          <SidebarTab
             icon="i-material-symbols-event-list-outline-rounded"
             label="Event logs"
             :as="NuxtLink"
             :to="{ name: 'projects-id-logs', params: { id: currentProject!.id } }"
           />
-          <Tab
+          <SidebarTab
             icon="i-material-symbols-settings-outline-rounded"
             label="Settings"
             :as="NuxtLink"

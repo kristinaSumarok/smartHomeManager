@@ -18,14 +18,14 @@
       <div class="border-t border-zinc-200 p-4">
         <slot name="footer">
           <UserMenu>
-            <button class="group w-full flex items-center justify-between gap-2 rounded-lg p-2 active:(bg-zinc-950/10 shadow-inset) hover:bg-zinc-950/5">
+            <button class="group w-full flex items-center justify-between gap-2 rounded-lg p-2 active:(bg-zinc-950/10 shadow-inner) hover:bg-zinc-950/5">
               <div class="flex flex-1 items-center gap-3 overflow-x-hidden">
                 <UIAvatar size="lg" />
                 <div class="min-w-0 flex-1 text-left">
                   <h4 class="truncate text-sm font-medium">
                     Pavel Mayorov
                   </h4>
-                  <p class="truncate text-sm text-zinc-600 group-hover:text-zinc-800">
+                  <p class="truncate text-sm text-zinc-600 group-active:text-zinc-800 group-hover:text-zinc-800">
                     pamayo@taltech.ee
                   </p>
                 </div>

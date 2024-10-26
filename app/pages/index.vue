@@ -22,7 +22,7 @@ const { status } = await useLazyAsyncData(() => projectsStore.getProjects())
       <ul
         v-if="status === 'success'"
         role="list"
-        class="grid gap-2 lg:cols-3 sm:cols-2"
+        class="grid cols-1 gap-2 lg:cols-3 sm:cols-2"
       >
         <li
           v-for="project in projects"

@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto max-w-screen-xl px-6 py-4 lg:px-10">
     <nav
-      class="flex flex-col items-center gap-4 sm:(flex-row justify-between)"
+      class="flex flex-col-reverse items-center gap-4 sm:(flex-row justify-between)"
       aria-label="Footer navigation"
     >
       <p class="text-xs text-zinc-600">
