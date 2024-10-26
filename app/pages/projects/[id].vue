@@ -27,26 +27,32 @@ if (!currentProject.value) {
         <Header>
           <template #menu>
             <HeaderMenu>
-              <template #body>
+              <template #content>
                 <div class="flex flex-col gap-1">
-                  <SidebarTab
-                    icon="i-material-symbols-grid-view-outline-rounded"
-                    label="Overview"
-                    :as="NuxtLink"
-                    :to="{ name: 'projects-id', params: { id: currentProject!.id } }"
-                  />
-                  <SidebarTab
-                    icon="i-material-symbols-event-list-outline-rounded"
-                    label="Event logs"
-                    :as="NuxtLink"
-                    :to="{ name: 'projects-id-logs', params: { id: currentProject!.id } }"
-                  />
-                  <SidebarTab
-                    icon="i-material-symbols-settings-outline-rounded"
-                    label="Settings"
-                    :as="NuxtLink"
-                    :to="{ name: 'projects-id-settings', params: { id: currentProject!.id } }"
-                  />
+                  <HeaderMenuClose>
+                    <SidebarTab
+                      icon="i-material-symbols-grid-view-outline-rounded"
+                      label="Overview"
+                      :as="NuxtLink"
+                      :to="{ name: 'projects-id', params: { id: currentProject!.id } }"
+                    />
+                  </HeaderMenuClose>
+                  <HeaderMenuClose>
+                    <SidebarTab
+                      icon="i-material-symbols-event-list-outline-rounded"
+                      label="Event logs"
+                      :as="NuxtLink"
+                      :to="{ name: 'projects-id-logs', params: { id: currentProject!.id } }"
+                    />
+                  </HeaderMenuClose>
+                  <HeaderMenuClose>
+                    <SidebarTab
+                      icon="i-material-symbols-settings-outline-rounded"
+                      label="Settings"
+                      :as="NuxtLink"
+                      :to="{ name: 'projects-id-settings', params: { id: currentProject!.id } }"
+                    />
+                  </HeaderMenuClose>
                   <div class="grid mt-auto">
                     <Button
                       :as="NuxtLink"

@@ -12,10 +12,10 @@
       />
     </DialogTrigger>
     <DialogPortal>
-      <DialogOverlay class="fixed inset-0 z-10 bg-zinc-950/25" />
+      <DialogOverlay class="fixed inset-0 bg-zinc-950/25" />
       <DialogContent
         :aria-describedby="undefined"
-        class="fixed inset-y-0 left-0 z-10 max-w-sm w-full p-2"
+        class="fixed inset-y-0 left-0 max-w-sm w-full p-2"
       >
         <div class="h-full rounded-lg bg-white shadow-lg ring-1 ring-zinc-200">
           <div class="min-h-full flex flex-col">
@@ -37,7 +37,7 @@
               </VisuallyHidden>
             </div>
             <div class="grid flex-1 p-4">
-              <slot name="body">
+              <slot name="content">
                 <nav class="px-2 py-4">
                   <ul class="space-y-6">
                     <slot />
