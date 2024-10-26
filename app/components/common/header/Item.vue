@@ -15,7 +15,7 @@ const { as = 'a' } = defineProps<Props>()
   <li>
     <component
       :is="as"
-      class="block text-sm text-zinc-700 font-medium hover:text-zinc-900"
+      class="block text-zinc-700 font-medium sm:text-sm hover:text-zinc-900"
       v-bind="$attrs"
     >
       {{ label }}

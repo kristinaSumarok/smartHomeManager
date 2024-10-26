@@ -9,12 +9,7 @@
       aria-label="Global navigation"
     >
       <div class="shrink-0 -ml-2 lg:hidden">
-        <IconButton
-          as="button"
-          type="button"
-          icon="i-material-symbols-menu-rounded"
-          label="Open navigation drawer"
-        />
+        <slot name="menu" />
       </div>
       <ul
         v-if="$slots.default"

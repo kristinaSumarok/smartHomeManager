@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-full flex flex-col bg-white lg:(flex-row bg-zinc-100)">
     <header class="lg:hidden">
-      <Header />
+      <slot name="header" />
     </header>
 
     <aside class="hidden lg:block">
