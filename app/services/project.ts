@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { projectSchema, type Project } from '~/domain/project'
+import { partialProjectSchema, projectSchema, type PartialProject, type Project } from '~/domain/project'
 
 export const useProjectService = () => {
   const config = useRuntimeConfig()
@@ -24,8 +24,14 @@ export const useProjectService = () => {
       await repository.remove(id)
     },
 
-    async updateProject(project: Project, id: Project['id']) {
-      await repository.update(id, project)
+    async updateProject(project: PartialProject, Id: Project['id']) {
+      const updatedProject = { ...project, id: Id }
+      const validation = partialProjectSchema.safeParse(updatedProject)
+      if (!validation.success) {
+        return { success: false }
+      }
+      await repository.update(Id, updatedProject)
+      return { success: true }
     },
   }
 }

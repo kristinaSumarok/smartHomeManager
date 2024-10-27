@@ -1,6 +1,6 @@
 // https://github.com/nuxt/nuxt/issues/28804
 import { useRoute } from 'vue-router'
-import type { Project } from '~/domain/project'
+import type { Project, PartialProject } from '~/domain/project'
 import { useProjectService } from '~/services/project'
 
 export const useProjectsStore = defineStore('projects', () => {
@@ -38,11 +38,13 @@ export const useProjectsStore = defineStore('projects', () => {
     await projectService.removeProjectById(currentProjectId.value)
     return { success: true }
   }
-  async function updateCurrentProject(project: Project) {
+  async function updateCurrentProject(project: PartialProject) {
     if (!currentProjectId.value)
       return { success: false }
+    const valid = await projectService.updateProject(project, currentProjectId.value)
+    if (!valid)
+      return { success: false }
 
-    await projectService.updateProject(project, currentProjectId.value)
     return { success: true }
   }
 

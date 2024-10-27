@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import type { Project } from '~/domain/project'
-import { partialProjectSchema } from '~/domain/project'
+import type { PartialProject } from '~/domain/project'
 
 const projectsStore = useProjectsStore()
 const { currentProject } = storeToRefs(projectsStore)
 
-const errorMessage = ref<string | null>(null)
+const deleteMessage = ref<string | null>(null)
+const updateMessage = ref<string | null>(null)
+
+const noError = ref<boolean>(false)
 
 async function handleRemove() {
   let isSuccess = false
-  errorMessage.value = null
+  deleteMessage.value = null
 
   try {
     const result = await projectsStore.removeProject()
@@ -22,7 +24,7 @@ async function handleRemove() {
   }
 
   if (!isSuccess) {
-    errorMessage.value = 'An error occurred while deleting project! Try again later.'
+    deleteMessage.value = 'An error occurred while deleting project! Try again later.'
     return
   }
 
@@ -31,13 +33,7 @@ async function handleRemove() {
 
 async function handleFormSubmit() {
   let isSuccess = false
-  errorMessage.value = null
-  const validation = partialProjectSchema.safeParse(form)
-
-  if (!validation.success) {
-    errorMessage.value = 'An error occurred while updating project! Try again later'
-    return
-  }
+  updateMessage.value = null
   try {
     const result = await projectsStore.updateCurrentProject(form)
     isSuccess = result.success
@@ -49,15 +45,15 @@ async function handleFormSubmit() {
   }
 
   if (!isSuccess) {
-    errorMessage.value = 'An error occurred while updating project! Try again later'
+    updateMessage.value = 'An error occurred while updating project! Try again later '
     return
   }
   await useAsyncData(() => projectsStore.getCurrentProject())
-  await navigateTo(`/projects/${currentProject.value?.id}`)
+  noError.value = true
+  updateMessage.value = 'Updated!'
 }
 
-const form = reactive<Project>({
-  id: Number(currentProject.value?.id),
+const form = reactive<PartialProject>({
   name: currentProject.value?.name || '',
 })
 </script>
@@ -78,6 +74,12 @@ const form = reactive<Project>({
           class="border rounded-md"
         >
       </div>
+      <p
+        v-if="updateMessage"
+        :class="noError ? 'text-green-500' : 'text-red-500'"
+      >
+        {{ updateMessage }}
+      </p>
       <button
         class="h-9 inline-flex items-center justify-center border rounded-md bg-blue-600 px-3 text-sm text-white font-semibold hover:bg-blue-500 focus-visible:(outline-blue-600 ring ring-white ring-inset)"
         type="submit"
@@ -92,10 +94,10 @@ const form = reactive<Project>({
       Delete project {{ currentProject?.name }}
     </button>
     <p
-      v-if="errorMessage"
+      v-if="deleteMessage"
       class="text-red-500"
     >
-      {{ errorMessage }}
+      {{ deleteMessage }}
     </p>
   </div>
 </template>
