@@ -7,20 +7,17 @@ const errorMessage = ref<string | null>(null)
 const projectName = ref(currentProject.value!.name)
 
 async function handleRemove() {
-  let isSuccess = false
   errorMessage.value = null
 
   try {
-    const result = await projectsStore.removeProject()
-    isSuccess = result.success
+    // NOTE: currentProject should be already loaded here
+    await projectsStore.removeProject(currentProject.value!.id)
   }
   catch (error) {
     if (error instanceof Error) {
       console.error(error.message)
     }
-  }
 
-  if (!isSuccess) {
     errorMessage.value = 'An error occurred while deleting project! Try again later.'
     return
   }
