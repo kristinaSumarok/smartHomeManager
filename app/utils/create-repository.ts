@@ -13,7 +13,7 @@ export const createRepository = (fetch: $Fetch) => ({
   },
 
   async findOne(id: Id) {
-    await sleep()
+    // await sleep()
     return await fetch<unknown>(`/${id}`)
   },
 
