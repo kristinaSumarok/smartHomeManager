@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { projectSchema, type Project } from '~/domain/project'
+import { partialProjectSchema, projectSchema, type Project } from '~/domain/project'
 
 export const useProjectService = () => {
   const config = useRuntimeConfig()
@@ -22,6 +22,15 @@ export const useProjectService = () => {
 
     async removeProjectById(id: Project['id']) {
       await repository.remove(id)
+    },
+
+    async updateProject(projectId: Project['id'], updatedProject: unknown) {
+      const partialProject = partialProjectSchema.parse(updatedProject)
+
+      // TODO: avoid passing unnecessary props to update
+      //  should be fixed in API
+      const response = await repository.update(projectId, { id: projectId, ...partialProject })
+      return projectSchema.parse(response)
     },
   }
 }
