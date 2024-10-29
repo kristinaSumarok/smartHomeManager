@@ -11,18 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Homemap.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241008165843_innitial")]
-    partial class innitial
+    [Migration("20241003103813_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true);
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1");
 
             modelBuilder.Entity("Homemap.Domain.Core.Device", b =>
                 {
@@ -97,7 +93,7 @@ namespace Homemap.Infrastructure.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Receivers");
+                    b.ToTable("Receiver");
                 });
 
             modelBuilder.Entity("Homemap.Domain.Core.Device", b =>

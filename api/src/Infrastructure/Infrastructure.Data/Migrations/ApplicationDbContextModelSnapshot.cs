@@ -15,11 +15,7 @@ namespace Homemap.Infrastructure.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true);
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1");
 
             modelBuilder.Entity("Homemap.Domain.Core.Device", b =>
                 {
@@ -94,7 +90,7 @@ namespace Homemap.Infrastructure.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Receivers");
+                    b.ToTable("Receiver");
                 });
 
             modelBuilder.Entity("Homemap.Domain.Core.Device", b =>

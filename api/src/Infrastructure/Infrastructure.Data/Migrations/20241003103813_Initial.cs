@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Homemap.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class innitial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,7 +27,7 @@ namespace Homemap.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Receivers",
+                name: "Receiver",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -39,9 +39,9 @@ namespace Homemap.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Receivers", x => x.Id);
+                    table.PrimaryKey("PK_Receiver", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Receivers_Projects_ProjectId",
+                        name: "FK_Receiver_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -64,9 +64,9 @@ namespace Homemap.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Device", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Device_Receivers_ReceiverId",
+                        name: "FK_Device_Receiver_ReceiverId",
                         column: x => x.ReceiverId,
-                        principalTable: "Receivers",
+                        principalTable: "Receiver",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -77,8 +77,8 @@ namespace Homemap.Infrastructure.Data.Migrations
                 column: "ReceiverId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Receivers_ProjectId",
-                table: "Receivers",
+                name: "IX_Receiver_ProjectId",
+                table: "Receiver",
                 column: "ProjectId");
         }
 
@@ -89,7 +89,7 @@ namespace Homemap.Infrastructure.Data.Migrations
                 name: "Device");
 
             migrationBuilder.DropTable(
-                name: "Receivers");
+                name: "Receiver");
 
             migrationBuilder.DropTable(
                 name: "Projects");
