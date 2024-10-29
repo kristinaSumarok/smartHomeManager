@@ -12,6 +12,8 @@ namespace Homemap.Infrastructure.Data.Contexts
 
         public DbSet<Receiver> Receivers { get; set; }
 
+        public DbSet<Device> Devices { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // https://learn.microsoft.com/en-us/answers/questions/2101757/applying-migration-fails-with-error

@@ -25,6 +25,7 @@ namespace Homemap.Infrastructure.Data
         {
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
             services.AddScoped<IReceiverRepository, ReceiverRepository>();
+            services.AddScoped<IDeviceRepository, DeviceRepository>();
             return services;
         }
     }
