@@ -4,17 +4,15 @@ import { receiverSchema } from '~/domain/receiver'
 
 export const useReceiverService = () => {
   const config = useRuntimeConfig()
-  const repository = createRepository(
+  const repository = createReceiversRepository(
     $fetch.create({
-      baseURL: `${config.public.apiBaseUrl}`,
+      baseURL: `${config.public.apiBaseUrl}/receivers`,
     }),
   )
 
   return {
     async getReceivers(projectId: Project['id']) {
-      const response = await repository.findAll(
-        `/projects/${projectId}/receivers`,
-      )
+      const response = await repository.findAll(projectId)
 
       return z.array(receiverSchema).parse(response)
     },
