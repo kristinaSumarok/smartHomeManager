@@ -28,6 +28,7 @@ namespace Homemap.ApplicationCore
         {
             services.AddScoped<IService<ProjectDto>, ProjectService>();
             services.AddScoped<IReceiverService, ReceiverService>();
+            services.AddScoped<IDeviceService, DeviceService>();
 
             return services;
         }
