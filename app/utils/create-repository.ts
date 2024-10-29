@@ -1,11 +1,12 @@
 import type { $Fetch } from 'nitropack'
+import type { Entity } from '~/domain/entity'
 
 // TODO: remove it later
 const sleep = () => new Promise((resolve) => {
   setTimeout(() => resolve(true), 3000)
 })
 
-type Id = string | number
+type Id = Entity['id']
 
 export const createRepository = (fetch: $Fetch) => ({
   async findAll(url?: string) {
@@ -17,17 +18,17 @@ export const createRepository = (fetch: $Fetch) => ({
     return await fetch<unknown>(`/${id}`)
   },
 
-  async add<T>(entity: T) {
+  async add<T extends Entity>(entity: T) {
     return await fetch<unknown>('/', {
       method: 'POST',
-      body: { entity },
+      body: entity,
     })
   },
 
-  async update<T>(id: Id, entity: T) {
+  async update<T extends Entity>(id: Id, entity: T) {
     return await fetch<unknown>(`/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(entity),
+      body: entity,
     })
   },
 
