@@ -6,50 +6,59 @@ const { status } = await useLazyAsyncData(() => projectsStore.getProjects())
 </script>
 
 <template>
-  <div class="mx-auto h-full max-w-screen-xl overflow-hidden p-6 lg:p-10">
-    <h1 class="text-4xl font-semibold tracking-tight sm:text-3xl">
-      Nuxt
-    </h1>
-    <p class="mt-4 text-zinc-700 leading-7">
-      Select a project or create a new one to get started
-    </p>
-    <div>
+  <div class="grid grow-1 content-center justify-items-center">
+    <div class="max-w-2xl">
+      <div class="mx-auto w-fit text-3xl text-zinc-600 sm:text-4xl">
+        <Icon name="i-material-symbols-draft-outline-rounded" />
+      </div>
+      <h1 class="mt-4 text-center text-2xl font-semibold tracking-tight sm:text-3xl">
+        Open existing project
+      </h1>
+      <p class="mt-2 text-center text-zinc-700 leading-7">
+        Or create a new one and start connecting your devices
+      </p>
+    </div>
+    <div class="mt-8 max-w-3xl w-full">
       <ul
         v-if="status === 'success'"
-        class="divide-y"
+        role="list"
+        class="grid cols-1 gap-2 lg:cols-3 sm:cols-2"
       >
         <li
           v-for="project in projects"
           :key="project.id"
-          class="group relative p-4"
         >
-          <h3>
-            {{ project.name }}
-          </h3>
-          <NuxtLink
-            :to="{ name: 'projects-id', params: { id: project.id } }"
-            class="block text-blue-600 font-medium group-hover:(text-blue-500 underline underline-offset-2)"
-          >
-            Open
-            <span
-              class="absolute inset-0"
-              aria-hidden="true"
-            />
-          </NuxtLink>
+          <ProjectCard :project="project" />
         </li>
       </ul>
-      <span v-else>
-        loading or error
-      </span>
-    </div>
-
-    <div class="p-4">
-      <button
-        type="button"
-        class="h-9 inline-flex items-center justify-center border rounded-md bg-blue-600 px-3 text-sm text-white font-semibold hover:bg-blue-500 focus-visible:(outline-blue-600 ring ring-white ring-inset)"
+      <div
+        v-else
+        class="grid gap-2 lg:cols-3 sm:cols-2"
       >
-        Add project
-      </button>
+        <div
+          v-for="i in 6"
+          :key="i"
+          class="w-64 border border-zinc-950/10 rounded-lg bg-white px-4 py-2 shadow-sm space-y-2"
+        >
+          <div class="h-4 w-2/3 animate-pulse rounded bg-zinc-200" />
+          <div class="h-4 w-1/3 animate-pulse rounded bg-zinc-200" />
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 max-w-2xl w-full flex flex-col gap-2 sm:(flex-row items-center justify-center)">
+      <Button
+        as="button"
+        type="button"
+        leading-icon="i-material-symbols-add-2-rounded"
+        label="Add project"
+        variant="primary"
+      />
+      <Button
+        as="button"
+        type="button"
+        trailing-icon="i-material-symbols-folder-open-outline-rounded"
+        label="Open project"
+      />
     </div>
   </div>
 </template>

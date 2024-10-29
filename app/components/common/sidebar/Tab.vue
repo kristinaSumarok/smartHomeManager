@@ -1,4 +1,8 @@
 <script setup lang="ts">
+defineOptions({
+  inheritAttrs: false,
+})
+
 interface Props {
   as?: unknown
   label: string
@@ -13,7 +17,7 @@ const { as = 'div', label, icon } = defineProps<Props>()
     <component
       :is="as"
       v-bind="$attrs"
-      class="peer group h-9 flex items-center gap-3 rounded-md p-2 text-sm font-medium active:(bg-zinc-950/10 shadow-inset) aria-[current=page]:bg-zinc-200 hover:bg-zinc-950/5"
+      class="peer group h-10 flex items-center gap-3 rounded-md p-2 text-sm font-medium sm:h-9 active:(bg-zinc-950/10 shadow-inner) aria-[current=page]:bg-zinc-200 hover:bg-zinc-950/5"
     >
       <span
         v-if="icon"

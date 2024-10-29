@@ -6,7 +6,6 @@
     <slot name="trigger" />
     <DropdownMenuPortal>
       <DropdownMenuContent
-        align="start"
         :side-offset="4"
         avoid-collisions
         class="grid min-w-80 w-min rounded-lg bg-white/75 p-1 shadow-lg ring-1 ring-zinc-200 backdrop-blur-xl lg:min-w-64"

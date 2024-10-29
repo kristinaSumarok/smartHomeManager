@@ -23,32 +23,74 @@ if (!currentProject.value) {
 <template>
   <div class="contents">
     <NuxtLayout name="app">
+      <template #header>
+        <Header>
+          <template #menu>
+            <HeaderMenu>
+              <template #content>
+                <div class="flex flex-col gap-1">
+                  <HeaderMenuClose>
+                    <SidebarTab
+                      icon="i-material-symbols-grid-view-outline-rounded"
+                      label="Overview"
+                      :as="NuxtLink"
+                      :to="{ name: 'projects-id', params: { id: currentProject!.id } }"
+                    />
+                  </HeaderMenuClose>
+                  <HeaderMenuClose>
+                    <SidebarTab
+                      icon="i-material-symbols-event-list-outline-rounded"
+                      label="Event logs"
+                      :as="NuxtLink"
+                      :to="{ name: 'projects-id-logs', params: { id: currentProject!.id } }"
+                    />
+                  </HeaderMenuClose>
+                  <HeaderMenuClose>
+                    <SidebarTab
+                      icon="i-material-symbols-settings-outline-rounded"
+                      label="Settings"
+                      :as="NuxtLink"
+                      :to="{ name: 'projects-id-settings', params: { id: currentProject!.id } }"
+                    />
+                  </HeaderMenuClose>
+                  <div class="grid mt-auto">
+                    <Button
+                      :as="NuxtLink"
+                      to="/"
+                      label="Switch projects"
+                      leading-icon="i-material-symbols-sync-alt-rounded"
+                      variant="primary"
+                    />
+                  </div>
+                </div>
+              </template>
+            </HeaderMenu>
+          </template>
+        </Header>
+      </template>
       <template #sidebar>
         <Sidebar>
           <template #header>
             <ProjectMenu />
           </template>
-          <Tab
+          <SidebarTab
             icon="i-material-symbols-grid-view-outline-rounded"
             label="Overview"
             :as="NuxtLink"
             :to="{ name: 'projects-id', params: { id: currentProject!.id } }"
           />
-          <Tab
+          <SidebarTab
             icon="i-material-symbols-event-list-outline-rounded"
             label="Event logs"
             :as="NuxtLink"
             :to="{ name: 'projects-id-logs', params: { id: currentProject!.id } }"
           />
-          <Tab
+          <SidebarTab
             icon="i-material-symbols-settings-outline-rounded"
             label="Settings"
             :as="NuxtLink"
             :to="{ name: 'projects-id-settings', params: { id: currentProject!.id } }"
           />
-          <template #footer>
-            <UserMenu />
-          </template>
         </Sidebar>
       </template>
 
