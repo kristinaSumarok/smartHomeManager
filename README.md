@@ -82,3 +82,6 @@ Right now the SQLite database is not saved across different runs.
 This means that if you stop the container and then run again the **data will not be persisted**.
 
 This will be fixed later by using volumes and mounting SQLite related data separately ([Read more](https://forums.docker.com/t/accessing-a-db-inside-a-docker-container/116106/6)).
+
+##### MQTT client
+If you want to see what is going on with your MQTT connection, which messages are sent and so on, you could download and install [MQTTX](https://mqttx.app/downloads).

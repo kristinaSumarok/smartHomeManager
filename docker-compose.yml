@@ -32,5 +32,14 @@ services:
     env_file:
       - ./api/.env
 
+  nanomq:
+    container_name: nanomq-broker
+    restart: unless-stopped
+    image: emqx/nanomq:latest
+    ports:
+      - 1883:1883
+      # - 8083:8083
+      # - 8883:8883
+
 volumes:
   node_modules:
