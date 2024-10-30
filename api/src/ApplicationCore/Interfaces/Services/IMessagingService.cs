@@ -10,7 +10,7 @@ namespace Homemap.ApplicationCore.Interfaces.Services
 
         Task DisconnectAsync();
 
-        Task PublishAsync(string topic, T message);
+        Task PublishAsync(string topic, T message, int QoS = 0, bool retain = false);
 
         Task SubscribeAsync(string topic);
     }

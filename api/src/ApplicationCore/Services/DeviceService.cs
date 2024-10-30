@@ -62,16 +62,44 @@ namespace Homemap.ApplicationCore.Services
             return _mapper.Map<DeviceDto>(deviceEntity);
         }
 
-        public async Task<ErrorOr<Updated>> UpdateDeviceState(int deviceId, DeviceStateDto updatedStateDto)
+        public async Task<ErrorOr<Updated>> SetStateAsync(int deviceId, DeviceStateDto deviceStateDto)
         {
             Device? device = await _deviceRepository.FindByIdAsync(deviceId);
 
             if (device is null)
                 return UserErrors.EntityNotFound($"Device was not found ('{deviceId}')");
 
-            await _messagingService.PublishAsync($"devices/{deviceId}/state", updatedStateDto);
+            // TODO: fix magic values
+            await _messagingService.PublishAsync($"devices/{deviceId}/set-state", deviceStateDto, 2);
 
             return Result.Updated;
+        }
+
+        public async Task<ErrorOr<DeviceStateDto>> GetStateAsync(int deviceId)
+        {
+            Device? device = await _deviceRepository.FindByIdAsync(deviceId);
+
+            if (device is null)
+                return UserErrors.EntityNotFound($"Device was not found ('{deviceId}')");
+
+            // assume that device has published the initial state message
+            await _messagingService.SubscribeAsync($"devices/{deviceId}/state");
+
+            var tcs = new TaskCompletionSource<DeviceStateDto>();
+
+            while (true)
+            {
+                if (_messagingService.ReceivedMessages.TryDequeue(out var deviceState))
+                {
+                    if (deviceState is not null)
+                    {
+                        tcs.SetResult(deviceState);
+                        break;
+                    }
+                }
+            }
+
+            return await tcs.Task;
         }
     }
 }

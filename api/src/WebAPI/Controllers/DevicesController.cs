@@ -51,21 +51,26 @@ public class DevicesController : ControllerBase
     [HttpGet("{id}/state")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetStateById(int id)
+    public async Task<ActionResult<DeviceStateDto>> GetStateById(int id)
     {
-        throw new NotImplementedException();
+        var dtoOrError = await _service.GetStateAsync(id);
+
+        if (dtoOrError.IsError)
+            return this.ErrorOf(dtoOrError.FirstError);
+
+        return dtoOrError.Value;
     }
 
     [HttpPost("{id}/state")]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateStateById(int id, DeviceStateDto deviceStateDto)
+    public async Task<IActionResult> SetStateById(int id, DeviceStateDto deviceStateDto)
     {
         // TODO: figure out validation
         //var validationResult = await _validator.ValidateAsync(deviceStateDto);
 
-        var updatedOrError = await _service.UpdateDeviceState(id, deviceStateDto);
+        var updatedOrError = await _service.SetStateAsync(id, deviceStateDto);
 
         if (updatedOrError.IsError)
             return this.ErrorOf(updatedOrError.FirstError);

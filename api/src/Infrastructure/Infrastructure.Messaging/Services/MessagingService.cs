@@ -3,6 +3,7 @@ using Infrastructure.Messaging.Models;
 using MQTTnet;
 using MQTTnet.Formatter;
 using MQTTnet.Packets;
+using MQTTnet.Protocol;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Text.Json;
@@ -16,6 +17,12 @@ namespace Infrastructure.Messaging.Services
         protected readonly IMqttClient _mqttClient;
 
         private readonly MqttClientOptions _mqttClientOptions;
+
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true,
+        };
 
         public MessagingService(MessagingServiceOptions options)
         {
@@ -52,7 +59,7 @@ namespace Infrastructure.Messaging.Services
         private Task MqttClient_ApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs args)
         {
             //string message = Encoding.UTF8.GetString(args.ApplicationMessage.Payload);
-            T? message = JsonSerializer.Deserialize<T>(args.ApplicationMessage.Payload.ToArray());
+            T? message = JsonSerializer.Deserialize<T>(args.ApplicationMessage.Payload.ToArray(), _jsonSerializerOptions);
 
             if (message is not null)
                 ReceivedMessages.Enqueue(message);
@@ -60,13 +67,17 @@ namespace Infrastructure.Messaging.Services
             return Task.CompletedTask;
         }
 
-        public async Task PublishAsync(string topic, T message)
+        // TODO: make options prettier
+        public async Task PublishAsync(string topic, T message, int QoS = 0, bool retain = false)
         {
-            byte[] payload = JsonSerializer.SerializeToUtf8Bytes(message);
+            byte[] payload = JsonSerializer.SerializeToUtf8Bytes(message, _jsonSerializerOptions);
 
             MqttApplicationMessage applicationMessage = new MqttApplicationMessageBuilder()
                 .WithTopic(topic)
                 .WithPayload(payload)
+                .WithContentType("application/json")
+                .WithQualityOfServiceLevel((MqttQualityOfServiceLevel) QoS)
+                .WithRetainFlag(retain)
                 .Build();
 
             await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
