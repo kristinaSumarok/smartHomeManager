@@ -6,6 +6,10 @@ namespace Homemap.ApplicationCore.Interfaces.Services
     {
         ConcurrentQueue<T> ReceivedMessages { get; }
 
+        Task ConnectAsync();
+
+        Task DisconnectAsync();
+
         Task PublishAsync(string topic, T message);
 
         Task SubscribeAsync(string topic);

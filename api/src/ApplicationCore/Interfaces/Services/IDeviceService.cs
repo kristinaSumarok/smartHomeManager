@@ -5,10 +5,10 @@ namespace Homemap.ApplicationCore.Interfaces.Services
 {
     public interface IDeviceService : IService<DeviceDto>
     {
-
         Task<ErrorOr<IReadOnlyList<DeviceDto>>> GetAllAsync(int receiverId);
 
         Task<ErrorOr<DeviceDto>> CreateAsync(int receiverId, DeviceDto dto);
 
+        Task<ErrorOr<Updated>> UpdateDeviceState(int deviceId, DeviceStateDto updatedStateDto);
     }
 }

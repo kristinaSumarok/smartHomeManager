@@ -48,6 +48,31 @@ public class DevicesController : ControllerBase
         return dtoOrError.Value;
     }
 
+    [HttpGet("{id}/state")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetStateById(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpPost("{id}/state")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateStateById(int id, DeviceStateDto deviceStateDto)
+    {
+        // TODO: figure out validation
+        //var validationResult = await _validator.ValidateAsync(deviceStateDto);
+
+        var updatedOrError = await _service.UpdateDeviceState(id, deviceStateDto);
+
+        if (updatedOrError.IsError)
+            return this.ErrorOf(updatedOrError.FirstError);
+
+        return NoContent();
+    }
+
     [HttpPost("/api/receivers/{receiverId}/[controller]")]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]

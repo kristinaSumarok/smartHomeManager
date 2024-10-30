@@ -1,5 +1,7 @@
 ﻿using Homemap.ApplicationCore.Interfaces.Services;
+using Infrastructure.Messaging.Models;
 using MQTTnet;
+using MQTTnet.Formatter;
 using MQTTnet.Packets;
 using System.Buffers;
 using System.Collections.Concurrent;
@@ -9,16 +11,42 @@ namespace Infrastructure.Messaging.Services
 {
     internal class MessagingService<T> : IMessagingService<T>
     {
-        private readonly IMqttClient _mqttClient;
-
         public ConcurrentQueue<T> ReceivedMessages { get; } = new ConcurrentQueue<T>();
 
-        public MessagingService(MessagingClientService messagingClientService)
+        protected readonly IMqttClient _mqttClient;
+
+        private readonly MqttClientOptions _mqttClientOptions;
+
+        public MessagingService(MessagingServiceOptions options)
         {
-            _mqttClient = messagingClientService.Client;
+            var mqttFactory = new MqttClientFactory();
+            IMqttClient mqttClient = mqttFactory.CreateMqttClient();
+
+            MqttClientOptions mqttClientOptions = new MqttClientOptionsBuilder()
+                .WithConnectionUri(options.ConnectionUri)
+                .WithProtocolVersion(MqttProtocolVersion.V500)
+                .WithClientId("homemap-api/" + Guid.NewGuid().ToString())
+                .WithCleanSession()
+                .Build();
+
+            _mqttClient = mqttClient;
+            _mqttClientOptions = mqttClientOptions;
 
             // register events
             _mqttClient.ApplicationMessageReceivedAsync += MqttClient_ApplicationMessageReceivedAsync;
+        }
+
+        public async Task ConnectAsync()
+        {
+            await _mqttClient.ConnectAsync(_mqttClientOptions, CancellationToken.None);
+
+            // This will throw an exception if the server does not reply
+            await _mqttClient.PingAsync(CancellationToken.None);
+        }
+
+        public async Task DisconnectAsync()
+        {
+            await _mqttClient.DisconnectAsync(MqttClientDisconnectOptionsReason.NormalDisconnection);
         }
 
         private Task MqttClient_ApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs args)

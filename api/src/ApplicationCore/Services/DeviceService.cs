@@ -16,15 +16,19 @@ namespace Homemap.ApplicationCore.Services
 
         private readonly ICrudRepository<Receiver> _receiverRepository;
 
+        private readonly IMessagingService<DeviceStateDto> _messagingService;
+
         public DeviceService(
             IMapper mapper,
             IDeviceRepository deviceRepository,
-            ICrudRepository<Receiver> receiverRepository
+            ICrudRepository<Receiver> receiverRepository,
+            IMessagingService<DeviceStateDto> messagingService
         ) : base(mapper, deviceRepository)
         {
             _deviceRepository = deviceRepository;
             _receiverRepository = receiverRepository;
             _mapper = mapper;
+            _messagingService = messagingService;
         }
 
         public async Task<ErrorOr<IReadOnlyList<DeviceDto>>> GetAllAsync(int receiverId)
@@ -56,6 +60,18 @@ namespace Homemap.ApplicationCore.Services
             await _deviceRepository.SaveAsync();
 
             return _mapper.Map<DeviceDto>(deviceEntity);
+        }
+
+        public async Task<ErrorOr<Updated>> UpdateDeviceState(int deviceId, DeviceStateDto updatedStateDto)
+        {
+            Device? device = await _deviceRepository.FindByIdAsync(deviceId);
+
+            if (device is null)
+                return UserErrors.EntityNotFound($"Device was not found ('{deviceId}')");
+
+            await _messagingService.PublishAsync($"devices/{deviceId}/state", updatedStateDto);
+
+            return Result.Updated;
         }
     }
 }
