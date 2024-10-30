@@ -14,12 +14,19 @@ public class DevicesController : ControllerBase
 {
     private readonly IDeviceService _service;
 
-    private readonly IValidator<DeviceDto> _validator;
+    private readonly IValidator<DeviceDto> _deviceValidator;
 
-    public DevicesController(IDeviceService deviceService, IValidator<DeviceDto> validator)
+    private readonly IValidator<DeviceStateDto> _deviceStateValidator;
+
+    public DevicesController(
+        IDeviceService deviceService,
+        IValidator<DeviceDto> deviceValidator,
+        IValidator<DeviceStateDto> deviceStateValidator
+    )
     {
         _service = deviceService;
-        _validator = validator;
+        _deviceValidator = deviceValidator;
+        _deviceStateValidator = deviceStateValidator;
     }
 
     [HttpGet("/api/receivers/{receiverId}/[controller]")]
@@ -67,8 +74,14 @@ public class DevicesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> SetStateById(int id, DeviceStateDto deviceStateDto)
     {
-        // TODO: figure out validation
-        //var validationResult = await _validator.ValidateAsync(deviceStateDto);
+        var validationResult = await _deviceStateValidator.ValidateAsync(deviceStateDto);
+
+        if (!validationResult.IsValid)
+        {
+            validationResult.AddToModelState(ModelState);
+
+            return BadRequest(ModelState);
+        }
 
         var updatedOrError = await _service.SetStateAsync(id, deviceStateDto);
 
@@ -84,7 +97,7 @@ public class DevicesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateDevice(int receiverId, [FromBody] DeviceDto dto)
     {
-        var validationResult = await _validator.ValidateAsync(dto);
+        var validationResult = await _deviceValidator.ValidateAsync(dto);
 
         if (!validationResult.IsValid)
         {
@@ -108,7 +121,7 @@ public class DevicesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<DeviceDto>> Update(int id, [FromBody] DeviceDto dto)
     {
-        var validationResult = await _validator.ValidateAsync(dto);
+        var validationResult = await _deviceValidator.ValidateAsync(dto);
 
         if (!validationResult.IsValid)
         {
