@@ -4,6 +4,7 @@ using Homemap.ApplicationCore.Errors;
 using Homemap.ApplicationCore.Interfaces.Repositories;
 using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.ApplicationCore.Models;
+using Homemap.ApplicationCore.Models.Messaging;
 using Homemap.Domain.Core;
 
 namespace Homemap.ApplicationCore.Services
@@ -68,9 +69,15 @@ namespace Homemap.ApplicationCore.Services
 
             if (device is null)
                 return UserErrors.EntityNotFound($"Device was not found ('{deviceId}')");
-
-            // TODO: fix magic values
-            await _messagingService.PublishAsync($"devices/{deviceId}/set-state", deviceStateDto, 2);
+            
+            await _messagingService.PublishAsync(
+                $"devices/{deviceId}/set-state",
+                deviceStateDto,
+                new MessagingServicePublishOptions
+                {
+                    QualityOfService = MessagingQualityOfService.EXACTLT_ONCE
+                }
+            );
 
             return Result.Updated;
         }

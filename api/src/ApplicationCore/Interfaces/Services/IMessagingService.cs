@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using Homemap.ApplicationCore.Models.Messaging;
+using System.Collections.Concurrent;
 
 namespace Homemap.ApplicationCore.Interfaces.Services
 {
@@ -10,7 +11,7 @@ namespace Homemap.ApplicationCore.Interfaces.Services
 
         Task DisconnectAsync();
 
-        Task PublishAsync(string topic, T message, int QoS = 0, bool retain = false);
+        Task PublishAsync(string topic, T message, MessagingServicePublishOptions options);
 
         Task SubscribeAsync(string topic);
     }

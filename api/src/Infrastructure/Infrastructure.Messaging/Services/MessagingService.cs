@@ -1,4 +1,5 @@
 ﻿using Homemap.ApplicationCore.Interfaces.Services;
+using Homemap.ApplicationCore.Models.Messaging;
 using Infrastructure.Messaging.Models;
 using MQTTnet;
 using MQTTnet.Formatter;
@@ -68,16 +69,16 @@ namespace Infrastructure.Messaging.Services
         }
 
         // TODO: make options prettier
-        public async Task PublishAsync(string topic, T message, int QoS = 0, bool retain = false)
+        public async Task PublishAsync(string topic, T message, MessagingServicePublishOptions options)
         {
             byte[] payload = JsonSerializer.SerializeToUtf8Bytes(message, _jsonSerializerOptions);
 
             MqttApplicationMessage applicationMessage = new MqttApplicationMessageBuilder()
                 .WithTopic(topic)
                 .WithPayload(payload)
-                .WithContentType("application/json")
-                .WithQualityOfServiceLevel((MqttQualityOfServiceLevel) QoS)
-                .WithRetainFlag(retain)
+                .WithContentType(options.ContentType)
+                .WithQualityOfServiceLevel((MqttQualityOfServiceLevel) options.QualityOfService)
+                .WithRetainFlag(options.IsRetain)
                 .Build();
 
             await _mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
