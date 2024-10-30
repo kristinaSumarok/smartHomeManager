@@ -1,43 +1,51 @@
-﻿using FluentValidation;
+﻿using ErrorOr;
+using FluentValidation;
 using Homemap.ApplicationCore.Interfaces.Services;
 using Homemap.ApplicationCore.Models;
+using Homemap.WebAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
 namespace Homemap.WebAPI.Controllers;
 
-public class ReceiversController : BaseController<ReceiverDto>
+[Route("api/[controller]")]
+[ApiController]
+public class ReceiversController : ControllerBase
 {
     private readonly IReceiverService _service;
 
     private readonly IValidator<ReceiverDto> _validator;
 
-    public ReceiversController(IReceiverService receiverService, IValidator<ReceiverDto> validator) : base(receiverService, validator)
+    public ReceiversController(IReceiverService receiverService, IValidator<ReceiverDto> validator)
     {
         _service = receiverService;
         _validator = validator;
     }
 
-    [NonAction]
-    public override Task<ActionResult<IReadOnlyList<ReceiverDto>>> GetAll() => null!;
-
-    [NonAction]
-    public override Task<ActionResult<ReceiverDto>> Create([FromBody] ReceiverDto dto) => null!;
-
-    [NonAction]
-    public override Task<ActionResult<ReceiverDto>> Update(int id, [FromBody] ReceiverDto dto) => null!;
-
     [HttpGet("/api/projects/{projectId}/[controller]")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetReceiversByProject(int projectId)
+    public async Task<IActionResult> GetAllByProject(int projectId)
     {
         var dtoOrError = await _service.GetAllAsync(projectId);
 
         if (dtoOrError.IsError)
-            return ErrorOf(dtoOrError.FirstError);
+            return this.ErrorOf(dtoOrError.FirstError);
 
         return Ok(dtoOrError.Value);
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ReceiverDto>> GetById(int id)
+    {
+        ErrorOr<ReceiverDto> dtoOrError = await _service.GetByIdAsync(id);
+
+        if (dtoOrError.IsError)
+            return this.ErrorOf(dtoOrError.FirstError);
+
+        return dtoOrError.Value;
     }
 
     [HttpPost("/api/projects/{projectId}/[controller]")]
@@ -50,10 +58,7 @@ public class ReceiversController : BaseController<ReceiverDto>
 
         if (!validationResult.IsValid)
         {
-            foreach (var error in validationResult.Errors)
-            {
-                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-            }
+            validationResult.AddToModelState(ModelState);
 
             return BadRequest(ModelState);
         }
@@ -62,7 +67,20 @@ public class ReceiversController : BaseController<ReceiverDto>
 
         return dtoOrError.MatchFirst(
             createdReceiver => CreatedAtAction(nameof(CreateReceiver), new { createdReceiver.Id }, createdReceiver),
-            firstError => ErrorOf(firstError)
+            firstError => this.ErrorOf(firstError)
         );
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> Delete(int id)
+    {
+        ErrorOr<Deleted> deletedOrError = await _service.DeleteAsync(id);
+
+        if (deletedOrError.IsError)
+            return this.ErrorOf(deletedOrError.FirstError);
+
+        return NoContent();
     }
 }
