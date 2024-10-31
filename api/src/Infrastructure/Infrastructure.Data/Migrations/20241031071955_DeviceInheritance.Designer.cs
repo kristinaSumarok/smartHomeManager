@@ -3,6 +3,7 @@ using System;
 using Homemap.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Homemap.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031071955_DeviceInheritance")]
+    partial class DeviceInheritance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +52,7 @@ namespace Homemap.Infrastructure.Data.Migrations
 
                     b.HasIndex("ReceiverId");
 
-                    b.ToTable("Devices", (string)null);
+                    b.ToTable("Devices");
 
                     b.HasDiscriminator().HasValue("Device");
 
@@ -74,7 +77,7 @@ namespace Homemap.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("Homemap.Domain.Core.Receiver", b =>
@@ -100,7 +103,7 @@ namespace Homemap.Infrastructure.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Receivers", (string)null);
+                    b.ToTable("Receivers");
                 });
 
             modelBuilder.Entity("Homemap.Domain.Devices.ACDevice", b =>
