@@ -3,13 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Homemap.Domain.Core
 {
-    public class Device : AuditableEntity
+    public abstract class Device : AuditableEntity
     {
         [Required]
         public string Name { get; set; } = null!;
-
-        [Required]
-        public DeviceType DeviceType { get; set; }
 
         [Required]
         public int ReceiverId { get; set; }

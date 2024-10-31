@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using Homemap.ApplicationCore.Models.Messaging;
+using System.Collections.Concurrent;
 
 namespace Homemap.ApplicationCore.Interfaces.Services
 {
@@ -6,7 +7,11 @@ namespace Homemap.ApplicationCore.Interfaces.Services
     {
         ConcurrentQueue<T> ReceivedMessages { get; }
 
-        Task PublishAsync(string topic, T message);
+        Task ConnectAsync();
+
+        Task DisconnectAsync();
+
+        Task PublishAsync(string topic, T message, MessagingServicePublishOptions options);
 
         Task SubscribeAsync(string topic);
     }

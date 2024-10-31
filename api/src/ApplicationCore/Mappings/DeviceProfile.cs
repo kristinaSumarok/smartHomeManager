@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Homemap.ApplicationCore.Models;
+using Homemap.ApplicationCore.Models.Devices;
 using Homemap.Domain.Core;
+using Homemap.Domain.Devices;
 
 namespace Homemap.ApplicationCore.Mappings
 {
@@ -9,11 +11,21 @@ namespace Homemap.ApplicationCore.Mappings
         public DeviceProfile()
         {
             CreateMap<Device, DeviceDto>()
-                .ForCtorParam(nameof(DeviceDto.Type),
-                    opt => opt.MapFrom(src => src.DeviceType.ToString()))
+                .IncludeAllDerived()
                 .ReverseMap()
-                .ForMember(nameof(Device.DeviceType),
-                    opt => opt.MapFrom(src => Enum.Parse<DeviceType>(src.Type)));
+                .IncludeAllDerived();
+
+            CreateMap<ACDevice, ACDeviceDto>()
+                .ReverseMap();
+
+            CreateMap<ThermostatDevice, ThermostatDeviceDto>()
+                .ReverseMap();
+
+            CreateMap<LightbulbDevice, LightbulbDeviceDto>()
+                .ReverseMap();
+
+            CreateMap<SocketDevice, SocketDeviceDto>()
+                .ReverseMap();
         }
     }
 }

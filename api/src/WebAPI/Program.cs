@@ -1,6 +1,7 @@
 using Homemap.ApplicationCore;
 using Homemap.ApplicationCore.Interfaces.Seeders;
 using Homemap.ApplicationCore.Interfaces.Services;
+using Homemap.ApplicationCore.Models;
 using Homemap.Infrastructure.Data;
 using Homemap.Infrastructure.Data.Contexts;
 using Homemap.Infrastructure.Data.Seeds;
@@ -58,7 +59,7 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 // connect and disconnect from broker
-var messagingService = app.Services.GetRequiredService<IMessagingClientService>();
+var messagingService = app.Services.GetRequiredService<IMessagingService<DeviceStateDto>>();
 
 app.Lifetime.ApplicationStarted.Register(async () =>
     await messagingService.ConnectAsync());
