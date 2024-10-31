@@ -3,7 +3,7 @@ import { partialProjectSchema, projectSchema, type Project } from '~/domain/proj
 
 export const useProjectService = () => {
   const config = useRuntimeConfig()
-  const repository = createRepository(
+  const repository = createProjectRepository(
     $fetch.create({
       baseURL: `${config.public.apiBaseUrl}/projects`,
     }),

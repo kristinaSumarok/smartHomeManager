@@ -9,8 +9,8 @@ const sleep = () => new Promise((resolve) => {
 type Id = Entity['id']
 
 export const createRepository = (fetch: $Fetch) => ({
-  async findAll(url?: string) {
-    return await fetch<unknown[]>(url ?? '/')
+  async findAll() {
+    return await fetch<unknown[]>('/')
   },
 
   async findOne(id: Id) {
@@ -18,14 +18,14 @@ export const createRepository = (fetch: $Fetch) => ({
     return await fetch<unknown>(`/${id}`)
   },
 
-  async add<T extends Entity>(entity: T) {
+  async add<T extends Record<string, unknown>>(entity: T) {
     return await fetch<unknown>('/', {
       method: 'POST',
       body: entity,
     })
   },
 
-  async update<T extends Entity>(id: Id, entity: T) {
+  async update<T extends Record<string, unknown>>(id: Id, entity: T) {
     return await fetch<unknown>(`/${id}`, {
       method: 'PUT',
       body: entity,
