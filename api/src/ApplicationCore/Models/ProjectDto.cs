@@ -2,5 +2,8 @@
 
 namespace Homemap.ApplicationCore.Models
 {
-    public record ProjectDto(int Id, string Name) : EntityDto(Id);
+    public record ProjectDto : AuditableEntityDto
+    {
+        public required string Name { get; init; }
+    }
 }
