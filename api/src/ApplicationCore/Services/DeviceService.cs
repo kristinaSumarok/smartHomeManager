@@ -69,7 +69,10 @@ namespace Homemap.ApplicationCore.Services
 
             if (device is null)
                 return UserErrors.EntityNotFound($"Device was not found ('{deviceId}')");
-            
+
+            // TODO: perform validation that state can be used for this device
+            //  must be performed on domain level as it is domain specific logic
+
             await _messagingService.PublishAsync(
                 $"devices/{deviceId}/set-state",
                 deviceStateDto,
@@ -100,6 +103,8 @@ namespace Homemap.ApplicationCore.Services
                 {
                     if (deviceState is not null)
                     {
+                        // TODO: validate device state from broker as well
+
                         tcs.SetResult(deviceState);
                         break;
                     }

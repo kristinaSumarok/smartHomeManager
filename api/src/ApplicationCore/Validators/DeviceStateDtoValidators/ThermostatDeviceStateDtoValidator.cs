@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Homemap.ApplicationCore.Models.DeviceState;
+using Homemap.ApplicationCore.Models.DeviceStates;
 
 namespace Homemap.ApplicationCore.Validators.DeviceStateDtoValidators
 {
