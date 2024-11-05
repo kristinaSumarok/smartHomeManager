@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { updateProjectSchema, projectSchema, type Project } from '~/domain/project'
+import { updateProjectSchema, projectSchema, type Project, createProjectSchema } from '~/domain/project'
 
 export const useProjectService = () => {
   const config = useRuntimeConfig()
@@ -28,6 +28,13 @@ export const useProjectService = () => {
       const project = updateProjectSchema.parse({ id, ...updatedProject })
 
       const response = await repository.update(id, project)
+      return projectSchema.parse(response)
+    },
+
+    async createProject(newProject: Record<string, unknown>) {
+      const project = createProjectSchema.parse(newProject)
+
+      const response = await repository.add(project)
       return projectSchema.parse(response)
     },
   }

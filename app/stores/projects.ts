@@ -45,9 +45,17 @@ export const useProjectsStore = defineStore('projects', () => {
     currentProject.value = await projectService.updateProject(currentProjectId.value, updatedProject)
   }
 
+  async function createProject(newProject: Record<string, unknown>) {
+    const createdProject = await projectService.createProject(newProject)
+    projects.value.push(createdProject)
+
+    return createdProject
+  }
+
   return {
     projects,
     getProjects,
+    createProject,
     updateCurrentProject,
     currentProject,
     currentProjectId,
