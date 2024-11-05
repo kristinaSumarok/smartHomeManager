@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { NuxtLink } from '#components'
+
 const projectsStore = useProjectsStore()
 const { projects } = storeToRefs(projectsStore)
 
@@ -38,7 +40,7 @@ const { status } = await useLazyAsyncData(() => projectsStore.getProjects())
         <div
           v-for="i in 6"
           :key="i"
-          class="w-64 border border-zinc-950/10 rounded-lg bg-white px-4 py-2 shadow-sm space-y-2"
+          class="min-w-64 border border-zinc-950/10 rounded-lg bg-white px-4 py-2 shadow-sm space-y-2"
         >
           <div class="h-4 w-2/3 animate-pulse rounded bg-zinc-200" />
           <div class="h-4 w-1/3 animate-pulse rounded bg-zinc-200" />
@@ -47,8 +49,8 @@ const { status } = await useLazyAsyncData(() => projectsStore.getProjects())
     </div>
     <div class="mt-10 max-w-2xl w-full flex flex-col gap-2 sm:(flex-row items-center justify-center)">
       <Button
-        as="button"
-        type="button"
+        :as="NuxtLink"
+        to="/projects/new"
         leading-icon="i-material-symbols-add-2-rounded"
         label="Add project"
         variant="primary"
