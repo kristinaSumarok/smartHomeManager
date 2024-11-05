@@ -28,6 +28,7 @@ async function handleRemove() {
 async function handleUpdate(event: Event) {
   errorMessage.value = null
 
+  // TODO: CSRF, and it is not the best place to write this comment tbh
   const formData = new FormData((event.target as HTMLFormElement))
   const data = Object.fromEntries(formData)
 

@@ -2,6 +2,8 @@
 
 namespace Homemap.ApplicationCore.Models
 {
-    public record ReceiverDto(
-        int Id, string Name,IReadOnlyCollection<DeviceDto> Devices) : EntityDto(Id);
+    public record ReceiverDto : AuditableEntityDto
+    {
+        public required string Name { get; init; }
+    }
 }

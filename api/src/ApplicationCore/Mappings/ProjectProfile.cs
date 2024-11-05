@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Homemap.ApplicationCore.Models;
+using Homemap.ApplicationCore.Models.Common;
+using Homemap.Domain.Common;
 using Homemap.Domain.Core;
 
 namespace Homemap.ApplicationCore.Mappings
@@ -9,7 +11,9 @@ namespace Homemap.ApplicationCore.Mappings
         public ProjectProfile()
         {
             CreateMap<Project, ProjectDto>()
-                .ReverseMap();
+                .IncludeBase<AuditableEntity, AuditableEntityDto>()
+                .ReverseMap()
+                .IncludeBase<AuditableEntityDto, AuditableEntity>();
         }
     }
 }

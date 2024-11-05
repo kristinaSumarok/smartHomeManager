@@ -4,7 +4,7 @@ import { receiverSchema } from '~/domain/receiver'
 
 export const useReceiverService = () => {
   const config = useRuntimeConfig()
-  const repository = createReceiversRepository(
+  const repository = createReceiverRepository(
     $fetch.create({
       baseURL: `${config.public.apiBaseUrl}/receivers`,
     }),
