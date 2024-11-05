@@ -37,7 +37,7 @@ const model = defineModel<string>()
         v-model="model"
         :name="name"
         v-bind="$attrs"
-        class="block h-10 w-full appearance-none border rounded-md bg-white px-3 shadow-sm sm:(h-9 text-sm) disabled:(cursor-not-allowed border-zinc-950/10 bg-zinc-950/10 text-zinc-600) focus-visible:border-blue-500 placeholder:text-zinc-400"
+        class="block h-10 w-full appearance-none border rounded-md bg-white px-3 shadow-sm sm:(h-9 text-sm) disabled:(cursor-not-allowed border-zinc-950/10 bg-zinc-950/10 text-zinc-600) focus-visible:(border-blue-600 outline-blue-600) placeholder:text-zinc-400"
         :aria-invalid="!!error"
         :aria-describedby="error ? `error-${id}` : undefined"
       >

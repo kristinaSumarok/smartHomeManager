@@ -32,43 +32,46 @@ async function handleSubmit(event: Event) {
 </script>
 
 <template>
-  <div class="mx-auto mt-10 max-w-md">
-    <h1 class="text-2xl font-semibold">
-      Create a new project
-    </h1>
-    <form @submit.prevent="handleSubmit">
-      <div class="mb-4">
-        <label
-          for="name"
-          class="block text-sm font-medium"
-        >
-          Project Name
-        </label>
-        <input
-          id="name"
-          v-model="projectName"
-          name="name"
-          type="text"
-          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500"
-          :class="{ 'border-red-500': errorMessage }"
-          placeholder="Enter project name"
-          required
-          :disabled="isSubmitting"
-        >
-        <p
-          v-if="errorMessage"
-          class="mt-1 text-sm text-red-600"
-        >
-          {{ errorMessage }}
-        </p>
+  <div class="grid grow-1 content-center justify-items-center">
+    <div class="max-w-2xl">
+      <div class="mx-auto w-fit text-3xl text-zinc-600 sm:text-4xl">
+        <Icon name="i-material-symbols-library-add-outline-rounded" />
       </div>
-      <button
-        type="submit"
-        class="w-full rounded-md bg-blue-600 py-2 text-white hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-500"
-        :disabled="isSubmitting"
-      >
-        Create Project
-      </button>
-    </form>
+      <h1 class="mt-4 text-center text-2xl font-semibold tracking-tight sm:text-3xl">
+        Create new project
+      </h1>
+      <p class="mt-2 text-center text-zinc-700 leading-7">
+        Give it a name and start connecting your devices
+      </p>
+    </div>
+    <div class="mt-8 max-w-md w-full">
+      <div>
+        <form
+          class="space-y-6"
+          @submit.prevent="handleSubmit"
+        >
+          <Input
+            v-model="projectName"
+            type="text"
+            label="Project name"
+            name="name"
+            :error="errorMessage"
+            placeholder="Enter project name"
+            required
+            :disabled="isSubmitting"
+          />
+          <div class="grid">
+            <Button
+              as="button"
+              type="submit"
+              leading-icon="i-material-symbols-add-2-rounded"
+              label="Create project"
+              variant="primary"
+              :disabled="isSubmitting"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
