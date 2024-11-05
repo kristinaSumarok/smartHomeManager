@@ -14,6 +14,8 @@ const initials = project.name
   .slice(0, 3)
   .join('')
   .toUpperCase()
+
+const lastModifiedAt = getRelativeTimeString(project.lastModifiedAt)
 </script>
 
 <template>
@@ -34,7 +36,7 @@ const initials = project.name
         </NuxtLink>
       </h3>
       <p class="text-sm text-zinc-500 group-active/card:text-zinc-700 group-hover/card:text-zinc-700">
-        some metadata
+        {{ lastModifiedAt }}
       </p>
     </div>
   </div>
