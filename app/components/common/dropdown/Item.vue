@@ -32,7 +32,7 @@ defineProps<Props>()
       <slot name="label">
         <span
           v-if="label"
-          class="col-start-2 truncate"
+          class="col-start-2 truncate text-start"
         >
           {{ label }}
         </span>
