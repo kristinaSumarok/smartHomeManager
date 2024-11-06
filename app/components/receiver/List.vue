@@ -76,7 +76,7 @@ async function handleToggle(event: TreeItemToggleEvent<TreeNode>) {
       :key="item._id"
       :style="{ 'padding-left': `${item.level - 0.5}rem` }"
       v-bind="item.bind"
-      class="group/treeitem h-7 flex items-center gap-2 rounded px-2 data-[selected]:(bg-blue-500 text-white hover:bg-blue-400) hover:bg-zinc-950/5 focus-visible:(ring-2 ring-white ring-inset)"
+      class="group/treeitem h-8 flex items-center gap-2 rounded px-2 sm:h-7 data-[selected]:(bg-blue-500 text-white hover:bg-blue-400) hover:bg-zinc-950/5 focus-visible:(ring-2 ring-white ring-inset)"
       @toggle="handleToggle"
     >
       <span class="text-zinc-600 group-data-[selected]/treeitem:text-blue-50">
@@ -115,7 +115,7 @@ async function handleToggle(event: TreeItemToggleEvent<TreeNode>) {
           />
         </template>
       </span>
-      <span>
+      <span class="truncate">
         {{ item.value.name }}
       </span>
     </TreeItem>

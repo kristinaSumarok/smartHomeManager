@@ -93,8 +93,6 @@ if (!currentProject.value) {
           />
         </Sidebar>
       </template>
-
-      <p>hello {{ JSON.stringify(currentProject) }}</p>
       <NuxtPage />
     </NuxtLayout>
   </div>

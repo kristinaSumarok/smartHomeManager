@@ -19,7 +19,7 @@ defineProps<Props>()
   />
   <Icon
     v-else-if="deviceType === 'thermostat'"
-    name="i-material-symbols-thermostat-rounded"
+    name="i-material-symbols-device-thermostat"
   />
   <Icon
     v-else-if="deviceType === 'ac'"
