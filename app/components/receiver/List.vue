@@ -121,7 +121,19 @@ async function handleToggle(event: TreeItemToggleEvent<TreeNode>) {
     </TreeItem>
   </TreeRoot>
 
-  <span v-else>
-    loading or error
-  </span>
+  <div
+    v-else
+    class="space-y-1"
+  >
+    <div
+      v-for="i in 6"
+      :key="i"
+      class="h-7 flex items-center"
+    >
+      <div
+        class="h-5 animate-pulse rounded bg-zinc-200"
+        :class="i % 3 === 0 ? 'w-1/2 sm:w-1/4 animate-delay-200' : i % 2 === 0 ? 'w-2/3 sm:w-1/3 animate-delay-400' : 'w-full sm:w-2/3' "
+      />
+    </div>
+  </div>
 </template>
