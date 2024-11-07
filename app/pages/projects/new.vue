@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { NuxtLink } from '#components'
+
 const projectName = ref('')
 const errorMessage = ref<string | null>(null)
 const isSubmitting = ref(false)
@@ -60,7 +62,7 @@ async function handleSubmit(event: Event) {
             required
             :disabled="isSubmitting"
           />
-          <div class="grid">
+          <div class="grid gap-2">
             <Button
               as="button"
               type="submit"
@@ -68,6 +70,13 @@ async function handleSubmit(event: Event) {
               label="Create project"
               variant="primary"
               :disabled="isSubmitting"
+            />
+            <Button
+              :as="NuxtLink"
+              to="/"
+              leading-icon="i-material-symbols-arrow-back-rounded"
+              label="Back to projects"
+              variant="secondary"
             />
           </div>
         </form>
