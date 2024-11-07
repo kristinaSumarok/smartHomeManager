@@ -29,7 +29,7 @@ const iconVariants = {
 <template>
   <component
     :is="as"
-    class="group/button relative h-10 min-w-fit inline-flex items-center justify-center gap-2 border rounded-md px-4 text-sm font-semibold sm:(h-9 px-3) active:shadow-inner focus-visible:(ring ring-white ring-inset)"
+    class="group/button relative h-10 min-w-fit inline-flex items-center justify-center gap-2 border rounded-md px-4 text-sm font-semibold sm:(h-9 px-3) disabled:(cursor-not-allowed opacity-60) active:shadow-inner focus-visible:(ring ring-white ring-inset)"
     :class="variants[variant]"
   >
     <span

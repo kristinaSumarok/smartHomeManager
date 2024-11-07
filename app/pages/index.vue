@@ -26,12 +26,15 @@ import { NuxtLink } from '#components'
         label="Add project"
         variant="primary"
       />
-      <Button
-        as="button"
-        type="button"
-        trailing-icon="i-material-symbols-folder-open-outline-rounded"
-        label="Open project"
-      />
+      <Tooltip label="Feature is not available">
+        <Button
+          as="button"
+          type="button"
+          trailing-icon="i-material-symbols-folder-open-outline-rounded"
+          label="Open project"
+          disabled
+        />
+      </Tooltip>
     </div>
   </div>
 </template>
