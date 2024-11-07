@@ -6,6 +6,7 @@ defineOptions({
 interface Props {
   label: string
   name: string
+  description?: string | null
   error?: string | null
 }
 
@@ -48,6 +49,14 @@ const model = defineModel<string>()
       class="mt-2 text-sm text-red-600"
     >
       {{ error }}
+    </p>
+    <p
+      v-else-if="description"
+      class="mt-2 text-xs text-zinc-500"
+      role="region"
+      aria-live="polite"
+    >
+      {{ description }}
     </p>
   </div>
 </template>
