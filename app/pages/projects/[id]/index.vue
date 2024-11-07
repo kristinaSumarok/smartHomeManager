@@ -44,7 +44,7 @@
         <h2 class="text-xl font-semibold tracking-tight">
           Details
         </h2>
-        <div class="mt-2 border border-2 rounded-lg border-dashed px-4 py-8">
+        <div class="mt-2 border border-2 rounded-lg border-dashed px-4 py-8 hover:border-zinc-300">
           <div class="mx-auto w-fit text-3xl text-zinc-600 sm:text-4xl">
             <Icon name="i-material-symbols-lasso-select-rounded" />
           </div>
