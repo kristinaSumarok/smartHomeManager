@@ -20,4 +20,15 @@ CMD [ "pnpm", "run", "dev" ]
 EXPOSE 3000
 EXPOSE 24678
 
-# TODO: build and production stages
+FROM base AS build
+
+CMD [ "pnpm", "run", "build" ]
+
+FROM node:lts-alpine AS prod
+
+WORKDIR /app
+
+COPY --from=build /app/.output ./.output
+
+CMD [ "node", ".output/server/index.mjs" ]
+EXPOSE 3000
