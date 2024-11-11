@@ -1,15 +1,21 @@
 <script setup lang="ts">
+import { ZodError } from 'zod'
 import { NuxtLink } from '#components'
+import type { CreateProject, CreateProjectErrors } from '~/domain/project'
 
 const projectName = ref('')
-const errorMessage = ref<string | null>(null)
-const isSubmitting = ref(false)
-
 const projectsStore = useProjectsStore()
+
+const isSubmitting = ref(false)
+const errorState: CreateProjectErrors = reactive({
+  formErrors: [],
+  fieldErrors: {},
+})
 
 async function handleSubmit(event: Event) {
   isSubmitting.value = true
-  errorMessage.value = null
+  errorState.formErrors = []
+  errorState.fieldErrors = {}
 
   const formData = new FormData((event.target as HTMLFormElement))
   const data = Object.fromEntries(formData)
@@ -20,10 +26,19 @@ async function handleSubmit(event: Event) {
   }
   catch (error) {
     if (error instanceof Error) {
+      // if validation error
+      if (error instanceof ZodError) {
+        const flattenedError = (error as ZodError<CreateProject>).flatten()
+
+        // TODO: add toast if form error
+        errorState.formErrors = flattenedError.formErrors
+        errorState.fieldErrors = flattenedError.fieldErrors
+      }
+
       console.error(error.message)
     }
 
-    errorMessage.value = 'An error occurred while creating a new project! Try again later.'
+    errorState.formErrors.push('An error occurred while creating a new project! Try again later.')
   }
 
   isSubmitting.value = false
@@ -57,7 +72,7 @@ async function handleSubmit(event: Event) {
             type="text"
             label="Project name"
             name="name"
-            :error="errorMessage"
+            :error="errorState.fieldErrors.name?.at(0)"
             placeholder="Enter project name"
             required
             :disabled="isSubmitting"

@@ -9,6 +9,7 @@ namespace Homemap.ApplicationCore.Validators
         {
             RuleFor(device => device.Name)
                 .NotEmpty().WithMessage("Device name is required.")
+                .MinimumLength(3)
                 .MaximumLength(100).WithMessage("Device name must not exceed 100 characters.");
         }
     }
