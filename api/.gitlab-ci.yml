@@ -1,0 +1,32 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_REGISTRY: 662032419283.dkr.ecr.eu-north-1.amazonaws.com/homemap
+
+stages:
+  - build
+
+before_script:
+  - apk add --no-cache curl jq python3 py3-pip
+  - pip install --break-system-packages awscli
+  - aws ecr get-login-password | docker login --username AWS --password-stdin ${DOCKER_REGISTRY}
+
+build:
+  image:
+    name: docker:27.3.1-alpine3.20
+  services:
+    - docker:27.3.1-alpine3.20
+  only:
+    - main
+  script:
+    - echo Building and tagging Docker images...
+    - docker-compose -f docker-compose.yml build
+    - echo Pushing images to Amazon ECR...
+    - docker-compose -f docker-compose.yml push
+  after_script:
+    - docker logout ${DOCKER_REGISTRY}
+  stage: build
+  artifacts:
+    paths:
+  tags:
+    - itb2203
