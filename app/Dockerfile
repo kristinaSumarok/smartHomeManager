@@ -24,7 +24,7 @@ FROM base AS build
 
 CMD [ "pnpm", "run", "build" ]
 
-FROM node:lts-alpine
+FROM node:lts-alpine AS prod
 
 WORKDIR /app
 
