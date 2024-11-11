@@ -1,31 +1,27 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dev
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
 
 WORKDIR /app
 
 COPY . .
+
+FROM base AS dev
 
 CMD [ "dotnet", "watch", "run", "--project", "src/WebAPI/WebAPI.csproj", "--urls", "https://*:7185;http://*:8080" ]
-
 EXPOSE 7185 8080
 
-# TODO: make stages better
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM base AS build
 
-WORKDIR /app
-
-COPY . .
-
-CMD [ "dotnet", "publish", "src/WebAPI/WebAPI.csproj", "-c", "Release", "-o", "/publish" ]
+RUN dotnet publish src/WebAPI/WebAPI.csproj -c Release -o .output
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS prod
 
 WORKDIR /app
 
-COPY --from=build /publish .
+COPY --from=build /app/.output .
 
-EXPOSE 80
-
+# who knows what is this
 RUN addgroup -S runner && adduser -S runner -G runner
 USER runner
 
-ENTRYPOINT ["dotnet", "Homemap.WebAPI.dll"]
+CMD ["dotnet", "Homemap.WebAPI.dll"]
+EXPOSE 80
