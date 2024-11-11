@@ -5,6 +5,7 @@ services:
     build:
       context: ./app
       target: dev
+    image: 662032419283.dkr.ecr.eu-north-1.amazonaws.com/homemap/front:latest
     ports:
       - 3000:3000
       - 24678:24678
@@ -20,6 +21,7 @@ services:
     build:
       context: ./api
       target: dev
+    image: 662032419283.dkr.ecr.eu-north-1.amazonaws.com/homemap/back:latest
     ports:
       - 8080:8080
       - 7185:7185
