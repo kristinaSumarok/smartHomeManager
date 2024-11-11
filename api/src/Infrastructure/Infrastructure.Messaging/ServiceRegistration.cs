@@ -10,7 +10,7 @@ namespace Infrastructure.Messaging
     {
         public static IServiceCollection AddMessagingService(this IServiceCollection services, IConfiguration configuration)
         {
-            string? connectionString = configuration.GetConnectionString("MqttDefaultConnection");
+            string connectionString = configuration.GetConnectionString("MqttDefaultConnection") ?? throw new InvalidOperationException("Connection string not found (message queue)");
 
             services.AddSingleton(_ => new MessagingServiceOptions
             {

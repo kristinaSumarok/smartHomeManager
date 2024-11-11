@@ -1,0 +1,6 @@
+services:
+  nuxt:
+    image: 662032419283.dkr.ecr.eu-north-1.amazonaws.com/homemap/front:latest
+  
+  dotnet:
+    image: 662032419283.dkr.ecr.eu-north-1.amazonaws.com/homemap/back:latest

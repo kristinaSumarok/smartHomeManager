@@ -14,7 +14,7 @@ namespace Homemap.Infrastructure.Data
             services.AddDbContext<ApplicationDbContext>(options => options
                 .UseLazyLoadingProxies()
                 .UseSqlite(
-                    configuration.GetConnectionString("DefaultConnection"),
+                    configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string not found (database)"),
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                 ));
 

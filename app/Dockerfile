@@ -22,7 +22,7 @@ EXPOSE 24678
 
 FROM base AS build
 
-CMD [ "pnpm", "run", "build" ]
+RUN pnpm run build
 
 FROM node:lts-alpine AS prod
 

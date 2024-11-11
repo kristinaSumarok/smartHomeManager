@@ -26,7 +26,5 @@ build:
   after_script:
     - docker logout ${DOCKER_REGISTRY}
   stage: build
-  artifacts:
-    paths:
   tags:
     - itb2203
