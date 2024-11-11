@@ -20,9 +20,9 @@ build:
     - main
   script:
     - echo Building and tagging Docker images...
-    - docker-compose -f docker-compose.yml build
+    - docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
     - echo Pushing images to Amazon ECR...
-    - docker-compose -f docker-compose.yml push
+    - docker-compose -f docker-compose.yml -f docker-compose.prod.yml push
   after_script:
     - docker logout ${DOCKER_REGISTRY}
   stage: build
