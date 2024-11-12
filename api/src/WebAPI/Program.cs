@@ -30,7 +30,7 @@ builder.Services
     .AddControllers();
 
 var app = builder.Build();
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())
 {
