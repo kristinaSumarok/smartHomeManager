@@ -26,7 +26,7 @@ COPY --from=build /app/src/WebAPI/data.db data.db
 
 # make data.db writable
 RUN chmod 777 .
-RUN chmod 644 data.db
+RUN chmod 777 data.db
 
 # who knows what is this
 RUN addgroup -S runner && adduser -S runner -G runner
