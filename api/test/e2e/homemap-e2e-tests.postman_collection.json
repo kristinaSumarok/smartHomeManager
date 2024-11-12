@@ -5,5 +5,237 @@
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "30764884"
 	},
-	"item": []
+	"item": [
+	{
+		"name": "Devices",
+		"item": [
+		{
+			"name": "Create Device",
+			"event": [
+			{
+				"listen": "test",
+				"script": {
+				"exec": [
+					"pm.test(\"Status code is 201\", function () {",
+					"    pm.response.to.have.status(201);",
+					"});",
+					"",
+					"pm.test(\"Response has device data\", function () {",
+					"    const responseData = pm.response.json();",
+					"    pm.expect(responseData).to.have.property('id');",
+					"    pm.environment.set(\"deviceId\", responseData.id);",
+					"});"
+				],
+				"type": "text/javascript"
+				}
+			}
+			],
+			"request": {
+			"method": "POST",
+			"header": [
+				{
+				"key": "Content-Type",
+				"value": "application/json"
+				}
+			],
+			"body": {
+				"mode": "raw",
+				"raw": "{\n    \"name\": \"Test Device\",\n    \"type\": \"switch\",\n    \"description\": \"Test device description\"\n}"
+			},
+			"url": {
+				"raw": "{{baseUrl}}/api/receivers/{{receiverId}}/devices",
+				"host": ["{{baseUrl}}"],
+				"path": ["api", "receivers", "{{receiverId}}", "devices"]
+			}
+			}
+		},
+		{
+			"name": "Get All Devices by Receiver",
+			"event": [
+			{
+				"listen": "test",
+				"script": {
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(\"Response is an array\", function () {",
+					"    const responseData = pm.response.json();",
+					"    pm.expect(responseData).to.be.an('array');",
+					"});"
+				],
+				"type": "text/javascript"
+				}
+			}
+			],
+			"request": {
+			"method": "GET",
+			"url": {
+				"raw": "{{baseUrl}}/api/receivers/{{receiverId}}/devices",
+				"host": ["{{baseUrl}}"],
+				"path": ["api", "receivers", "{{receiverId}}", "devices"]
+			}
+			}
+		},
+		{
+			"name": "Get Device by ID",
+			"event": [
+			{
+				"listen": "test",
+				"script": {
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(\"Device data is valid\", function () {",
+					"    const responseData = pm.response.json();",
+					"    pm.expect(responseData).to.have.property('id');",
+					"    pm.expect(responseData.id).to.equal(parseInt(pm.environment.get(\"deviceId\")));",
+					"});"
+				],
+				"type": "text/javascript"
+				}
+			}
+			],
+			"request": {
+			"method": "GET",
+			"url": {
+				"raw": "{{baseUrl}}/api/devices/{{deviceId}}",
+				"host": ["{{baseUrl}}"],
+				"path": ["api", "devices", "{{deviceId}}"]
+			}
+			}
+		},
+		{
+			"name": "Get Device State",
+			"event": [
+			{
+				"listen": "test",
+				"script": {
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(\"State data is valid\", function () {",
+					"    const responseData = pm.response.json();",
+					"    pm.expect(responseData).to.have.property('state');",
+					"});"
+				],
+				"type": "text/javascript"
+				}
+			}
+			],
+			"request": {
+			"method": "GET",
+			"url": {
+				"raw": "{{baseUrl}}/api/devices/{{deviceId}}/state",
+				"host": ["{{baseUrl}}"],
+				"path": ["api", "devices", "{{deviceId}}", "state"]
+			}
+			}
+		},
+		{
+			"name": "Set Device State",
+			"event": [
+			{
+				"listen": "test",
+				"script": {
+				"exec": [
+					"pm.test(\"Status code is 204\", function () {",
+					"    pm.response.to.have.status(204);",
+					"});"
+				],
+				"type": "text/javascript"
+				}
+			}
+			],
+			"request": {
+			"method": "POST",
+			"header": [
+				{
+				"key": "Content-Type",
+				"value": "application/json"
+				}
+			],
+			"body": {
+				"mode": "raw",
+				"raw": "{\n    \"state\": \"on\"\n}"
+			},
+			"url": {
+				"raw": "{{baseUrl}}/api/devices/{{deviceId}}/state",
+				"host": ["{{baseUrl}}"],
+				"path": ["api", "devices", "{{deviceId}}", "state"]
+			}
+			}
+		},
+		{
+			"name": "Update Device",
+			"event": [
+			{
+				"listen": "test",
+				"script": {
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(\"Updated device data is valid\", function () {",
+					"    const responseData = pm.response.json();",
+					"    pm.expect(responseData).to.have.property('id');",
+					"    pm.expect(responseData.name).to.equal('Updated Test Device');",
+					"});"
+				],
+				"type": "text/javascript"
+				}
+			}
+			],
+			"request": {
+			"method": "PUT",
+			"header": [
+				{
+				"key": "Content-Type",
+				"value": "application/json"
+				}
+			],
+			"body": {
+				"mode": "raw",
+				"raw": "{\n    \"name\": \"Updated Test Device\",\n    \"type\": \"switch\",\n    \"description\": \"Updated test device description\"\n}"
+			},
+			"url": {
+				"raw": "{{baseUrl}}/api/devices/{{deviceId}}",
+				"host": ["{{baseUrl}}"],
+				"path": ["api", "devices", "{{deviceId}}"]
+			}
+			}
+		},
+		{
+			"name": "Delete Device",
+			"event": [
+			{
+				"listen": "test",
+				"script": {
+				"exec": [
+					"pm.test(\"Status code is 204\", function () {",
+					"    pm.response.to.have.status(204);",
+					"});"
+				],
+				"type": "text/javascript"
+				}
+			}
+			],
+			"request": {
+			"method": "DELETE",
+			"url": {
+				"raw": "{{baseUrl}}/api/devices/{{deviceId}}",
+				"host": ["{{baseUrl}}"],
+				"path": ["api", "devices", "{{deviceId}}"]
+			}
+			}
+		}
+		]
+	}
+	]
 }
