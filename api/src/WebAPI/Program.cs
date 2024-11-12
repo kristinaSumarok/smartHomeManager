@@ -30,7 +30,7 @@ builder.Services
     .AddControllers();
 
 var app = builder.Build();
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())
 {
@@ -59,12 +59,12 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 // connect and disconnect from broker
-var messagingService = app.Services.GetRequiredService<IMessagingService<DeviceStateDto>>();
+// var messagingService = app.Services.GetRequiredService<IMessagingService<DeviceStateDto>>();
 
-app.Lifetime.ApplicationStarted.Register(async () =>
-    await messagingService.ConnectAsync());
+// app.Lifetime.ApplicationStarted.Register(async () =>
+//     await messagingService.ConnectAsync());
 
-app.Lifetime.ApplicationStopping.Register(async () =>
-    await messagingService.DisconnectAsync());
+// app.Lifetime.ApplicationStopping.Register(async () =>
+//     await messagingService.DisconnectAsync());
 
 app.Run();
