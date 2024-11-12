@@ -232,22 +232,23 @@
 			"response": []
 		},
 		{
-			"name": "Get All Devices by Receiver",
+			"name": "Get All Receivers",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Response is an array\", function () {",
-							"    const responseData = pm.response.json();",
-							"    pm.expect(responseData).to.be.an('array');",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Receiver count is correct\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eql(1);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -255,15 +256,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/receivers/{{receiverId}}/devices",
+					"raw": "{{baseUrl}}/api/projects/{{projectId}}/receivers",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
-						"receivers",
-						"{{receiverId}}",
-						"devices"
+						"projects",
+						"{{projectId}}",
+						"receivers"
 					]
 				}
 			},
@@ -302,6 +303,44 @@
 						"api",
 						"devices",
 						"{{deviceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Devices by Receiver",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/receivers/{{receiverId}}/devices",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"receivers",
+						"{{receiverId}}",
+						"devices"
 					]
 				}
 			},
@@ -382,6 +421,117 @@
 						"api",
 						"devices",
 						"{{deviceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Devices Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData.length).to.be.eq(0);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/receivers/{{receiverId}}/devices",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"receivers",
+						"{{receiverId}}",
+						"devices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Receiver",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/receivers/{{receiverId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"receivers",
+						"{{receiverId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Receivers Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an empty array\", function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData.length).to.be.eq(0);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/projects/{{projectId}}/receivers",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"projects",
+						"{{projectId}}",
+						"receivers"
 					]
 				}
 			},
