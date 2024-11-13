@@ -63,7 +63,7 @@ async function handleToggle(event: TreeItemToggleEvent<TreeNode>) {
 
 <template>
   <TreeRoot
-    v-if="status === 'success'"
+    v-if="status === 'success' && receivers.length > 0"
     v-slot="{ flattenItems }"
     v-model:expanded="expanded"
     class="select-none list-none text-sm font-medium space-y-1"
@@ -120,6 +120,30 @@ async function handleToggle(event: TreeItemToggleEvent<TreeNode>) {
       </span>
     </TreeItem>
   </TreeRoot>
+
+  <div
+    v-else-if="status === 'success' && receivers.length === 0"
+    class="mx-auto max-w-md px-4 py-8"
+  >
+    <div class="mx-auto size-16 flex items-center justify-center border rounded-lg text-3xl text-blue-600 shadow-sm sm:text-4xl">
+      <Icon name="i-material-symbols-device-hub-rounded" />
+    </div>
+    <h3 class="mt-4 text-center font-semibold leading-6">
+      No devices connected
+    </h3>
+    <p class="mt-1 text-center text-sm text-zinc-600 leading-6">
+      Start by creating and connecting new receiver. After you can connect your devices directly to the receiver
+    </p>
+    <div class="mx-auto mt-6 w-fit">
+      <Button
+        as="button"
+        type="button"
+        label="Add receiver"
+        leading-icon="i-material-symbols-add-2-rounded"
+        variant="primary"
+      />
+    </div>
+  </div>
 
   <div
     v-else
