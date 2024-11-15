@@ -26,10 +26,10 @@ const model = defineModel<string>()
         {{ label }}
       </Label>
       <span
-        v-if="'required' in $attrs"
-        class="text-sm text-red-600"
+        v-if="!('required' in $attrs)"
+        class="text-sm text-zinc-600"
       >
-        Required
+        Optional
       </span>
     </div>
     <div class="mt-2">
