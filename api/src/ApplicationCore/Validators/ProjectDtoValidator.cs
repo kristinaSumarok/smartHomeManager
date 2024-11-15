@@ -9,6 +9,7 @@ namespace Homemap.ApplicationCore.Validators
         {
             RuleFor(project => project.Name)
                 .NotEmpty().WithMessage("Project name is required.")
+                .MinimumLength(3)
                 .MaximumLength(100).WithMessage("Project name must not exceed 100 characters.");
         }
     }

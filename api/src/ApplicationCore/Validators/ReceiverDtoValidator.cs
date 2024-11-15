@@ -8,6 +8,7 @@ namespace Homemap.ApplicationCore.Validators
         public ReceiverDtoValidator()
         {
             RuleFor(receiver => receiver.Name)
+                .MinimumLength(3).When((receiver) => !string.IsNullOrEmpty(receiver.Name))
                 .MaximumLength(100).WithMessage("Receiver name must not exceed 100 characters.");
         }
     }

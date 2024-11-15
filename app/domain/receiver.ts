@@ -9,13 +9,19 @@ export const receiverSchema = auditableEntitySchema.merge(
 
 export type Receiver = z.infer<typeof receiverSchema>
 
-export const createReceiverSchema = receiverSchema.omit({
-  id: true,
-  createdAt: true,
-  lastModifiedAt: true,
-})
+export const createReceiverSchema = receiverSchema
+  .omit({
+    id: true,
+    createdAt: true,
+    lastModifiedAt: true,
+  })
+  .partial({
+    name: true,
+  })
 
 export type CreateReceiver = z.infer<typeof createReceiverSchema>
+
+export type CreateReceiverErrors = z.inferFlattenedErrors<typeof createReceiverSchema>
 
 export const updateReceiverSchema = receiverSchema.omit({
   createdAt: true,
@@ -23,3 +29,5 @@ export const updateReceiverSchema = receiverSchema.omit({
 })
 
 export type UpdateReceiver = z.infer<typeof updateReceiverSchema>
+
+export type UpdateReceiverErrors = z.inferFlattenedErrors<typeof updateReceiverSchema>

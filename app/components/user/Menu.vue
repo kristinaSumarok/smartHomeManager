@@ -49,6 +49,7 @@ import { NuxtLink } from '#components'
         to="/"
         label="Sign out"
         icon="i-material-symbols-logout-rounded"
+        variant="destructive"
       />
     </DropdownGroup>
   </Dropdown>
